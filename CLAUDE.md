@@ -7,10 +7,26 @@ Fase de prototipo para probar flujos y datos. NO es producción.
 ## Restricciones duras (NUNCA violar)
 - HTML5 + CSS3 + JS vanilla ES6+. Sin frameworks, sin librerías JS externas, sin CDN de JS.
 - Sin build tools, sin npm, sin bundler. El código corre tal cual en el navegador.
-- Sin servidor propio (SPA client-side). Solo static server para servir módulos ES.
+- **Cero servidor, cero configuración.** Se abre `index.html` con doble clic (`file://`). No requiere
+  static server, ni build, ni pasos previos de ningún tipo. Esto es un requisito duro, no una opción.
 - IndexedDB = base de datos. localStorage solo para idioma y sesión.
 - Routing por location.hash en un único index.html. Admin = rutas protegidas por rol.
-- Módulos ES6 (import/export). Nada de globals salvo el montaje raíz.
+- **Scripts clásicos con namespace global (`window.Fluve.*`), NO `import`/`export`.**
+  Motivo (no es una preferencia de estilo): `<script type="module">` está sujeto a CORS por spec del
+  navegador y ese CORS SIEMPRE bloquea la carga bajo `file://` — no hay forma de evitarlo sin servidor.
+  `<script src="...">` clásico no está sujeto a esa restricción y carga sin problema desde `file://`.
+  Cada archivo sigue siendo un dominio independiente (mismo criterio de separación que ES6 modules);
+  solo cambia el mecanismo: en vez de `export function x(){}` + `import {x}`, cada archivo se envuelve
+  en un IIFE `(function(){ ... window.Fluve.dominio = {...} })();` y expone su API pública en su
+  sub-namespace. `index.html` carga todos los `<script src="...">` (sin `type="module"`) en el orden
+  de dependencias, todos antes de `</body>`; `app/main.js` va siempre último. Al agregar un archivo
+  nuevo hay que sumar su `<script>` en `index.html` en la posición correcta.
+- **Navegador de referencia: Chrome o Edge (últimas 2 versiones).** `localStorage` e `IndexedDB` bajo
+  `file://` son "comportamiento no especificado" por el estándar web: Chrome/Edge los permiten (por
+  compatibilidad), Firefox los bloquea por diseño de seguridad. Esto es una limitación del navegador,
+  no del código, y no tiene workaround dentro de la restricción de cero-servidor. El código debe
+  envolver todo acceso a `localStorage`/`IndexedDB` en try/catch con degradación elegante (seguir
+  funcionando en memoria esa sesión) para no romper la app entera si corre en un navegador no soportado.
 - Única excepción de red: fuentes de Google Fonts por <link>.
 
 ## Fuente de verdad
@@ -54,6 +70,7 @@ confirmaciones en acciones sensibles, notificaciones, audit log (store activity)
 - Pedidos guardan snapshot de precio/config al comprar (no cambian si cambia el catálogo).
 - Prohibido scrollIntoView (usar window.scrollTo(0,0)). No innerHTML con datos sin escapar.
 - Targets ≥44px, :focus-visible con --accent, contraste AA.
+- Todo acceso a localStorage/IndexedDB envuelto en try/catch con fallback en memoria (ver Restricciones duras).
 
 ## Roles
 guest < customer < staff < admin. Router redirige a #/auth?return=… si falta rol.
