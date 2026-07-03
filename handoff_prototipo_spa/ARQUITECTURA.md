@@ -60,9 +60,17 @@ Este documento define **cómo se organiza y ejecuta** el prototipo. Reglas duras
 
 ---
 
-## 2 · index.html (esqueleto)
+## 2 · index.html (esqueleto) — ⚠️ ADENDA: reemplaza la versión original de este documento
 
-Un único HTML. No mete lógica; solo el punto de montaje y la carga del módulo raíz.
+> **Cambio de arquitectura respecto al brief original:** la versión original de este documento
+> proponía `<script type="module">` y resolvía el bloqueo de CORS bajo `file://` con un static
+> server (`python3 -m http.server`). Se descartó: el objetivo del proyecto es cero-servidor y
+> cero-configuración de verdad (abrir `index.html` con doble clic), y un static server —por trivial
+> que sea— sigue siendo un paso de configuración externo. La solución correcta es **scripts
+> clásicos con namespace global**, que no están sujetos a CORS y cargan sin problema desde `file://`.
+> Ver también CLAUDE.md → Restricciones duras.
+
+Un único HTML. No mete lógica; solo el punto de montaje y la carga de todos los scripts (sin `type="module"`), en orden de dependencias, todos antes de `</body>`.
 
 ```html
 <!doctype html>
@@ -83,12 +91,28 @@ Un único HTML. No mete lógica; solo el punto de montaje y la carga del módulo
   <div id="app"><!-- shell + vista activa se montan acá --></div>
   <div id="toast-root"></div>
   <div id="modal-root"></div>
-  <script type="module" src="app/main.js"></script>
+
+  <!-- scripts clásicos, sin type="module", en orden de dependencias. app/main.js siempre último. -->
+  <script src="app/util/dom.js"></script>
+  <script src="app/util/toast.js"></script>
+  <script src="app/util/viewState.js"></script>
+  <script src="app/i18n.js"></script>
+  <script src="app/session.js"></script>
+  <script src="app/router.js"></script>
+  <script src="components/logo.js"></script>
+  <!-- … resto de components/ y views/ en orden de dependencias … -->
+  <script src="app/shell.js"></script>
+  <!-- … views/client/*.js, views/admin/*.js … -->
+  <script src="app/main.js"></script>
 </body>
 </html>
 ```
 
-> **Módulos ES6 y `file://`:** los navegadores bloquean `import` bajo `file://` (CORS). Para probar hay que servir la carpeta con un static server trivial: `python3 -m http.server 8080` o `npx serve` (no es un build ni una dependencia de la app — es solo servir archivos). Documentarlo en el README del repo del prototipo.
+> **`file://` funciona directo, sin servidor.** `<script src="...">` clásico (a diferencia de
+> `type="module"`) no está sujeto a CORS, así que carga sin problema con doble clic sobre
+> `index.html`. **Navegador de referencia: Chrome o Edge.** `localStorage`/`IndexedDB` bajo `file://`
+> son comportamiento no especificado por el estándar: Chrome/Edge los permiten, Firefox los bloquea
+> por diseño de seguridad — ver §8 para cómo el código se blinda contra esto.
 
 ---
 
@@ -154,37 +178,60 @@ export async function personalizador({ params }) {
 
 ---
 
-## 4 · Patrón de componentes vanilla
+## 4 · Patrón de componentes vanilla — ⚠️ ADENDA: namespace global en vez de import/export
+
+> La versión original de este documento usaba `export`/`import`. Se reemplaza por el patrón
+> namespace (`window.Fluve.*`) por el mismo motivo que §2: cero-servidor real. Cada archivo se
+> envuelve en un IIFE, toma sus dependencias de `window.Fluve.*` (ya cargadas antes por el orden
+> de `<script>` en `index.html`) y expone su propia API pública ahí mismo. La separación por
+> dominio/archivo se mantiene igual; solo cambia el mecanismo de import/export.
 
 Sin JSX ni framework. Un componente es **una función que devuelve un nodo DOM** y adjunta sus listeners. Estado local con cierres; estado global en IndexedDB + un `store` observable simple para lo reactivo (carrito, sesión, idioma).
 
 ```js
-// util/dom.js
-export function el(tag, props = {}, ...children) {
-  const node = document.createElement(tag);
-  for (const [k, v] of Object.entries(props)) {
-    if (k === 'class') node.className = v;
-    else if (k === 'style' && typeof v === 'object') Object.assign(node.style, v);
-    else if (k.startsWith('on') && typeof v === 'function') node.addEventListener(k.slice(2).toLowerCase(), v);
-    else if (v != null) node.setAttribute(k, v);
+// app/util/dom.js
+(function () {
+  function el(tag, props = {}, ...children) {
+    const node = document.createElement(tag);
+    for (const [k, v] of Object.entries(props)) {
+      if (k === 'class') node.className = v;
+      else if (k === 'style' && typeof v === 'object') Object.assign(node.style, v);
+      else if (k.startsWith('on') && typeof v === 'function') node.addEventListener(k.slice(2).toLowerCase(), v);
+      else if (v != null) node.setAttribute(k, v);
+    }
+    for (const c of children.flat()) node.append(c?.nodeType ? c : document.createTextNode(c ?? ''));
+    return node;
   }
-  for (const c of children.flat()) node.append(c?.nodeType ? c : document.createTextNode(c ?? ''));
-  return node;
-}
+
+  // Store observable mínimo para lo reactivo transversal (contador de carrito, sesión, idioma)
+  function createStore(initial) {
+    let state = initial; const subs = new Set();
+    return {
+      get: () => state,
+      set: (patch) => { state = { ...state, ...patch }; subs.forEach(f => f(state)); },
+      subscribe: (f) => { subs.add(f); return () => subs.delete(f); }
+    };
+  }
+
+  window.Fluve = window.Fluve || {};
+  window.Fluve.dom = { el, createStore };
+})();
 ```
 
-**Store observable mínimo** para lo reactivo transversal (contador de carrito, sesión, idioma):
+Un componente que consume `el()` desde otro archivo:
 
 ```js
-// util/store.js
-export function createStore(initial) {
-  let state = initial; const subs = new Set();
-  return {
-    get: () => state,
-    set: (patch) => { state = { ...state, ...patch }; subs.forEach(f => f(state)); },
-    subscribe: (f) => { subs.add(f); return () => subs.delete(f); }
-  };
-}
+// components/button.js — se carga en index.html DESPUÉS de app/util/dom.js
+(function () {
+  const { el } = window.Fluve.dom;
+
+  function button({ label, onClick }) {
+    return el('button', { class: 'btn btn--primary', onClick }, label);
+  }
+
+  window.Fluve.components = window.Fluve.components || {};
+  window.Fluve.components.button = button;
+})();
 ```
 
 Los primitivos (`button`, `card`, `chip`, `input`, `swatch`) y los compuestos (`productCard`, `dataTable`, `stepper`, `cartLine`) viven en `components/` y se estilan con las clases de `styles/components.css`. Toda la apariencia sale de los tokens del README §5 — nada de colores hardcodeados fuera de la paleta.
@@ -242,11 +289,15 @@ export const SEED = { products:[...], users:[...], suppliers:[...], purchases:[.
 
 ---
 
-## 8 · Reglas de estilo de código
+## 8 · Reglas de estilo de código — ⚠️ ADENDA en el primer punto (ver §2/§4)
 
-- **Módulos ES6** con `import`/`export` nombrados. Nada de globals salvo el montaje raíz.
+- **Scripts clásicos con namespace `window.Fluve.*`** (IIFE por archivo), NO `import`/`export`.
+  Nada de globals sueltos fuera de `Fluve` salvo el montaje raíz (`#app`, `#toast-root`, `#modal-root`).
 - **Sin dependencias externas** (ni CDN de librerías JS). Fuentes por `<link>` es la única excepción de red.
 - **Async/await** para todo lo de IndexedDB (los DAO devuelven Promesas — ver ESQUEMA).
+- **localStorage/IndexedDB envueltos en try/catch** con fallback en memoria — bajo `file://` son
+  comportamiento no especificado por el estándar (Chrome/Edge los permiten, Firefox los bloquea).
+  Navegador de referencia del prototipo: Chrome o Edge.
 - **Accesibilidad (F8):** targets ≥44px, `:focus-visible` con el `--accent`, roles ARIA en modales/toasts, contraste AA.
 - **Estados de vista siempre (F3/G4):** ninguna vista queda en blanco — loading (skeleton), vacío, sin resultados, error.
 - **Sin `scrollIntoView`**, sin `innerHTML` con datos del usuario sin escapar (usar `textContent`/nodos).
