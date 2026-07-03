@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    --ink:#080B14; --ink2:#0E1322; --ink3:#151C2E; --ink4:#1B2338;
+    --accent:#2C5CFF; --accent2:#4D7BFF;
+    --cyan:#2BD9E4; --magenta:#FF3D8B; --yellow:#FFC93D;
+    --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.15);
+    --txt:#EDF1FB; --mut:#8A93AD;
+    background:var(--ink); color:var(--txt);
+    font-family:'Inter',system-ui,sans-serif; -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'Space Mono',monospace}
+  .lbl{font:700 10.5px 'Space Mono';letter-spacing:1px;text-transform:uppercase;color:var(--mut)}
+  .opt{font:600 13px 'Space Grotesk';padding:9px 14px;border-radius:11px;border:1px solid var(--line2);color:var(--mut);cursor:pointer;user-select:none;transition:all .15s;background:transparent}
+  .opt:hover{border-color:var(--accent2);color:var(--txt)}
+  .opt.on{background:var(--txt);color:var(--ink);border-color:var(--txt)}
+  .sw{width:30px;height:30px;border-radius:50%;cursor:pointer;transition:transform .12s;border:1px solid var(--line2)}
+  .sw:hover{transform:scale(1.08)}
+  .tech{font:600 12.5px 'Space Grotesk';padding:8px 13px;border-radius:10px;border:1px solid var(--line2);color:var(--mut);cursor:pointer;transition:all .15s}
+  .tech:hover{border-color:var(--accent2);color:var(--txt)}
+  .tech.on{background:rgba(44,92,255,.16);color:var(--accent2);border-color:var(--accent)}
+  .thumb{border-radius:11px;overflow:hidden;border:1px solid var(--line2);cursor:pointer;aspect-ratio:1;transition:border-color .15s}
+  .thumb.on{border-color:var(--accent);outline:2px solid var(--accent);outline-offset:1px}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</helmet>
+
+<div style="min-height:100vh">
+
+  <!-- NAV -->
+  <nav style="position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:20px;padding:14px 32px;backdrop-filter:blur(18px);background:rgba(8,11,20,.72);border-bottom:1px solid var(--line)">
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="position:relative;width:24px;height:24px;display:inline-flex">
+        <span style="position:absolute;width:13px;height:13px;border-radius:50%;background:var(--cyan);mix-blend-mode:screen;left:0;top:5px"></span>
+        <span style="position:absolute;width:13px;height:13px;border-radius:50%;background:var(--magenta);mix-blend-mode:screen;right:0;top:5px"></span>
+        <span style="position:absolute;width:13px;height:13px;border-radius:50%;background:var(--yellow);mix-blend-mode:screen;left:5px;top:0"></span>
+      </span>
+      <span style="font:600 19px 'Space Grotesk';letter-spacing:-.3px">Fluvë<span style="color:var(--mut);font-weight:400"> studio</span></span>
+    </div>
+    <div class="mono" style="display:flex;align-items:center;gap:8px;margin-left:14px;font-size:11.5px;color:var(--mut)">
+      <span style="color: var(--txt); font-family: Space Grotesk; font-size: 15px">Galería</span><span>›</span><span style="color: var(--txt); font-family: Space Grotesk; font-size: 15px">Solar Bloom</span><span>›</span><span style="color: var(--accent2); font-family: Space Grotesk; font-size: 15px">Personalizar</span>
+    </div>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:14px">
+      <span class="mono" style="font-size:11px;color:var(--mut);border:1px solid var(--line2);border-radius:20px;padding:5px 10px;cursor:pointer">ES · <span style="color:var(--txt)">EN</span></span>
+      <span style="font-size:15px;color:var(--mut);cursor:pointer">♡</span>
+      <span style="display:inline-flex;align-items:center;gap:7px;font:600 13px 'Space Grotesk';color:var(--ink);background:var(--txt);padding:8px 14px;border-radius:20px;cursor:pointer">🛒 <span>{{ cartCount }}</span></span>
+    </div>
+  </nav>
+
+  <div style="max-width:1300px;margin:0 auto;padding:26px 32px 60px;display:grid;grid-template-columns:1.15fr .85fr;gap:34px;align-items:start">
+
+    <!-- ============ LEFT: LIVE PREVIEW ============ -->
+    <div style="position:sticky;top:88px">
+      <div style="position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--line2);background:radial-gradient(circle at 50% 35%,var(--ink4),var(--ink) 75%);aspect-ratio:1">
+        <div style="position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:38px 38px;opacity:.4;pointer-events:none"></div>
+        <!-- garment color wash -->
+        <div style="position:absolute;inset:0;background:{{ colorHex }};opacity:.14;pointer-events:none;transition:background .2s"></div>
+        <image-slot id="cust-live-main" shape="rounded" radius="0" style="position:absolute;inset:0;width:100%;height:100%" placeholder="Mockup en vivo — arrastrá la foto de la prenda; el diseño se compone encima"></image-slot>
+        <!-- top badges -->
+        <div style="position:absolute;top:16px;left:16px;display:flex;gap:8px;pointer-events:none">
+          <span class="mono" style="font-size:10px;color:var(--txt);background:rgba(8,11,20,.72);backdrop-filter:blur(8px);border:1px solid var(--line2);border-radius:18px;padding:6px 11px">● VISTA EN VIVO</span>
+          <span class="mono" style="font-size:10px;color:var(--ink);background:var(--cyan);border-radius:18px;padding:6px 11px">{{ techLabel }}</span>
+        </div>
+        <div style="position:absolute;top:16px;right:16px;display:flex;gap:6px;pointer-events:none">
+          <span style="width:22px;height:22px;border-radius:50%;background:{{ colorHex }};border:1.5px solid var(--line2)"></span>
+          <span class="mono" style="font-size:10px;color:var(--txt);background:rgba(8,11,20,.72);backdrop-filter:blur(8px);border:1px solid var(--line2);border-radius:18px;padding:6px 11px">{{ colorName }} · {{ size }}</span>
+        </div>
+        <!-- print-side indicator -->
+        <div style="position:absolute;bottom:16px;left:16px;pointer-events:none">
+          <span class="mono" style="font-size:10px;color:var(--mut);background:rgba(8,11,20,.72);backdrop-filter:blur(8px);border:1px solid var(--line2);border-radius:18px;padding:6px 11px">Vista: {{ viewLabel }}</span>
+        </div>
+      </div>
+      <!-- view thumbnails -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px">
+        <div class="thumb {{ frontCls }}" onClick="{{ setFront }}"><image-slot id="cust-t-front" shape="rounded" radius="0" style="width:100%;height:100%" placeholder="frente"></image-slot></div>
+        <div class="thumb {{ backCls }}" onClick="{{ setBack }}"><image-slot id="cust-t-back" shape="rounded" radius="0" style="width:100%;height:100%" placeholder="espalda"></image-slot></div>
+        <div class="thumb {{ detailCls }}" onClick="{{ setDetail }}"><image-slot id="cust-t-detail" shape="rounded" radius="0" style="width:100%;height:100%" placeholder="detalle"></image-slot></div>
+        <div class="thumb {{ modelCls }}" onClick="{{ setModel }}"><image-slot id="cust-t-model" shape="rounded" radius="0" style="width:100%;height:100%" placeholder="en modelo"></image-slot></div>
+      </div>
+      <p class="mono" style="font-size:10.5px;color:var(--mut);margin:12px 0 0;line-height:1.6">✎ Notas dev — Cada cambio de opción re-renderiza el mockup en el servidor de composición (diseño × prenda × color × técnica). Las 4 vistas se generan por ángulo. El "wash" de color simula el tono de la prenda sobre el mockup base.</p>
+    </div>
+
+    <!-- ============ RIGHT: CONTROLS ============ -->
+    <div style="display:flex;flex-direction:column;gap:22px">
+      <div style="animation:fadeUp .4s">
+        <h1 style="font:600 30px/1.05 'Space Grotesk';letter-spacing:-1px;margin:0 0 6px">Escape Beach</h1>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font:500 13px 'Inter';color:var(--mut)">por <span style="color:var(--accent2)">@kookylove</span></span>
+          <span style="color:var(--yellow);font-size:12px">★★★★★</span>
+          <span class="mono" style="font-size:11px;color:var(--mut)">4.9 · 128 reseñas</span>
+        </div>
+      </div>
+
+      <!-- PRODUCT -->
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px"><span class="lbl">Producto</span><span class="mono" style="font-size:10.5px;color:var(--mut)">5 disponibles</span></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <span class="opt {{ pTeeCls }}" onClick="{{ setTee }}">Remera</span>
+          <span class="opt {{ pHoodCls }}" onClick="{{ setHood }}">Hoodie</span>
+          <span class="opt {{ pMugCls }}" onClick="{{ setMug }}">Taza</span>
+          <span class="opt {{ pToteCls }}" onClick="{{ setTote }}">Tote bag</span>
+          <span class="opt {{ pCaseCls }}" onClick="{{ setCase }}">Funda</span>
+        </div>
+      </div>
+
+      <!-- COLOR -->
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px"><span class="lbl">Color de la prenda</span><span class="mono" style="font-size:10.5px;color:var(--txt)">{{ colorName }}</span></div>
+        <div style="display:flex;gap:11px;align-items:center">
+          <span class="sw" style="background:#0A0E17;{{ cBlackSel }}" onClick="{{ setBlack }}"></span>
+          <span class="sw" style="background:#FFFFFF;{{ cWhiteSel }}" onClick="{{ setWhite }}"></span>
+          <span class="sw" style="background:#C9C2B4;{{ cSandSel }}" onClick="{{ setSand }}"></span>
+          <span class="sw" style="background:#3B6FB0;{{ cBlueSel }}" onClick="{{ setBlue }}"></span>
+          <span class="sw" style="background:#7A3B3B;{{ cMaroonSel }}" onClick="{{ setMaroon }}"></span>
+          <span class="sw" style="background:#4A7A44;{{ cGreenSel }}" onClick="{{ setGreen }}"></span>
+        </div>
+      </div>
+
+      <!-- SIZE + FIT -->
+      <div style="display:flex;gap:24px;flex-wrap:wrap">
+        <div style="flex:1;min-width:180px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px"><span class="lbl">Talla</span><span class="mono" style="font-size:10.5px;color:var(--accent2);cursor:pointer">Guía de tallas ↗</span></div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <span class="opt {{ sXSCls }}" onClick="{{ setXS }}" style="padding:9px 12px">XS</span>
+            <span class="opt {{ sSCls }}" onClick="{{ setS }}" style="padding:9px 12px">S</span>
+            <span class="opt {{ sMCls }}" onClick="{{ setM }}" style="padding:9px 12px">M</span>
+            <span class="opt {{ sLCls }}" onClick="{{ setL }}" style="padding:9px 12px">L</span>
+            <span class="opt {{ sXLCls }}" onClick="{{ setXL }}" style="padding:9px 12px">XL</span>
+            <span class="opt {{ s2XLCls }}" onClick="{{ set2XL }}" style="padding:9px 12px">2XL</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRINT SIDE -->
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px"><span class="lbl">Lado de impresión</span><span class="mono" style="font-size:10.5px;color:var(--mut)">{{ sideExtra }}</span></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <span class="opt {{ sideFrontCls }}" onClick="{{ setSideFront }}">Frente</span>
+          <span class="opt {{ sideBackCls }}" onClick="{{ setSideBack }}">Espalda</span>
+          <span class="opt {{ sideBothCls }}" onClick="{{ setSideBoth }}">Ambos (+$4)</span>
+        </div>
+      </div>
+
+      <!-- TECHNIQUE -->
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px"><span class="lbl">Técnica de impresión</span><span class="mono" style="font-size:10.5px;color:var(--accent2);cursor:pointer">¿Cuál elijo? ↗</span></div>
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+          <span class="tech {{ tDTFCls }}" onClick="{{ setDTF }}">DTF</span>
+          <span class="tech {{ tSublCls }}" onClick="{{ setSubl }}">Sublimación</span>
+          <span class="tech {{ tSerigCls }}" onClick="{{ setSerig }}">Serigrafía</span>
+          <span class="tech {{ tBordCls }}" onClick="{{ setBord }}">Bordado</span>
+          <span class="tech {{ tVinilCls }}" onClick="{{ setVinil }}">Vinilo</span>
+        </div>
+        <p class="mono" style="font-size:10.5px;color:var(--mut);margin:9px 0 0;line-height:1.55">{{ techHint }}</p>
+      </div>
+
+      <!-- UPLOAD OWN -->
+      <div style="border:1px dashed var(--line2);border-radius:14px;padding:14px;background:var(--ink2)">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:46px;height:46px;border-radius:10px;background:var(--ink3);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;flex:none"><image-slot id="cust-upload" shape="rounded" radius="9" style="width:100%;height:100%" placeholder="↑"></image-slot></div>
+          <div style="flex:1">
+            <div style="font:600 13px 'Space Grotesk';color:var(--txt)">¿Tu propio diseño?</div>
+            <div style="font:500 11.5px/1.4 'Inter';color:var(--mut)">Arrastrá tu archivo. PNG/PDF/SVG · min 300 DPI · fondo transparente.</div>
+          </div>
+          <span class="opt" style="padding:8px 13px">Subir</span>
+        </div>
+      </div>
+
+      <!-- QTY + WHOLESALE -->
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <span class="lbl">Cantidad</span>
+          <div style="display:flex;align-items:center;gap:12px">
+            <span class="opt" style="padding:6px 13px" onClick="{{ dec }}">−</span>
+            <span style="font:600 16px 'Space Grotesk';min-width:26px;text-align:center">{{ qty }}</span>
+            <span class="opt" style="padding:6px 13px" onClick="{{ inc }}">+</span>
+          </div>
+        </div>
+        <!-- wholesale tiers -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+          <div style="border-radius:9px;border:1px solid {{ t1Border }};background:{{ t1Bg }};padding:8px 6px;text-align:center"><div class="mono" style="font-size:9.5px;color:var(--mut)">1–9</div><div style="font:600 13px 'Space Grotesk';color:{{ t1Col }}">$24,90</div></div>
+          <div style="border-radius:9px;border:1px solid {{ t2Border }};background:{{ t2Bg }};padding:8px 6px;text-align:center"><div class="mono" style="font-size:9.5px;color:var(--mut)">10–49</div><div style="font:600 13px 'Space Grotesk';color:{{ t2Col }}">$21,50</div></div>
+          <div style="border-radius:9px;border:1px solid {{ t3Border }};background:{{ t3Bg }};padding:8px 6px;text-align:center"><div class="mono" style="font-size:9.5px;color:var(--mut)">50–199</div><div style="font:600 13px 'Space Grotesk';color:{{ t3Col }}">$18,25</div></div>
+          <div style="border-radius:9px;border:1px solid {{ t4Border }};background:{{ t4Bg }};padding:8px 6px;text-align:center"><div class="mono" style="font-size:9.5px;color:var(--mut)">200+</div><div style="font:600 13px 'Space Grotesk';color:{{ t4Col }}">$16,35</div></div>
+        </div>
+        <p class="mono" style="font-size:10px;color:var(--mut);margin:8px 0 0">Precio por unidad según cantidad · tramo activo resaltado</p>
+      </div>
+
+      <!-- PRICE + CTA -->
+      <div style="border-top:1px solid var(--line);padding-top:18px;position:sticky;bottom:0;background:linear-gradient(180deg,transparent,var(--ink) 30%);padding-bottom:6px">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:14px">
+          <div>
+            <div class="mono" style="font-size:10.5px;color:var(--mut)">Precio calculado en vivo · {{ qty }} u.</div>
+            <div style="display:flex;align-items:baseline;gap:8px"><span style="font:600 34px 'Space Grotesk';letter-spacing:-1px">{{ totalStr }}</span><span class="mono" style="font-size:11px;color:var(--mut)">{{ unitStr }}/u</span></div>
+          </div>
+          <div style="text-align:right">
+            <div class="mono" style="font-size:10px;color:var(--cyan)">⚡ ENTREGA</div>
+            <div style="font:600 14px 'Space Grotesk'">24–48h</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px">
+          <span style="flex:1;display:inline-flex;align-items:center;justify-content:center;gap:9px;font:600 15px 'Space Grotesk';color:#fff;background:var(--accent);padding:14px;border-radius:26px;cursor:pointer;box-shadow:0 12px 30px -8px var(--accent)" onClick="{{ addToCart }}">Añadir al carrito · {{ totalStr }}</span>
+          <span style="display:inline-flex;align-items:center;justify-content:center;font:600 15px 'Space Grotesk';color:var(--txt);border:1px solid var(--line2);padding:14px 18px;border-radius:26px;cursor:pointer">♡</span>
+        </div>
+        <p class="mono" style="font-size:10px;color:var(--mut);text-align:center;margin:10px 0 0">✎ Notas dev — Precio = base(producto)×tramo(qty) + recargo(técnica) + recargo(lado) ×qty. Motor server-side (backend A23). "Añadir al carrito" → toast (conv. F2) + merge de carrito (F6)</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVIEWS STRIP -->
+  <section style="border-top:1px solid var(--line);background:var(--ink2);padding:44px 32px">
+    <div style="max-width:1300px;margin:0 auto">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:22px">
+        <h2 style="font:600 26px 'Space Grotesk';letter-spacing:-.5px;margin:0">Reseñas del producto</h2>
+        <div style="display:flex;align-items:center;gap:10px"><span style="color:var(--yellow)">★★★★★</span><span class="mono" style="font-size:12px;color:var(--mut)">4.9 / 5 · 128 reseñas</span></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+        <div style="border:1px solid var(--line);border-radius:16px;padding:20px;background:var(--ink3)">
+          <div style="color:var(--yellow);font-size:13px;margin-bottom:8px">★★★★★</div>
+          <p style="font:400 13.5px/1.6 'Inter';color:#C4CBDE;margin:0 0 14px">La calidad del DTF es impecable, colores vivos y la remera no se siente rígida. Llegó al día siguiente.</p>
+          <div style="display:flex;align-items:center;gap:10px"><image-slot id="rev-1" shape="circle" radius="15" style="width:30px;height:30px" placeholder="·"></image-slot><div><div style="font:600 12px 'Space Grotesk'">Martina L.</div><div class="mono" style="font-size:10px;color:var(--mut)">Compra verificada</div></div></div>
+        </div>
+        <div style="border:1px solid var(--line);border-radius:16px;padding:20px;background:var(--ink3)">
+          <div style="color:var(--yellow);font-size:13px;margin-bottom:8px">★★★★★</div>
+          <p style="font:400 13.5px/1.6 'Inter';color:#C4CBDE;margin:0 0 14px">Pedí 30 para mi marca. El color salió idéntico al mockup y el packaging quedó espectacular.</p>
+          <div style="display:flex;align-items:center;gap:10px"><image-slot id="rev-2" shape="circle" radius="15" style="width:30px;height:30px" placeholder="·"></image-slot><div><div style="font:600 12px 'Space Grotesk'">Estudio Creativo</div><div class="mono" style="font-size:10px;color:var(--mut)">Cliente mayorista</div></div></div>
+        </div>
+        <div style="border:1px solid var(--line);border-radius:16px;padding:20px;background:var(--ink3)">
+          <div style="color:var(--yellow);font-size:13px;margin-bottom:8px">★★★★☆</div>
+          <p style="font:400 13.5px/1.6 'Inter';color:#C4CBDE;margin:0 0 14px">Muy buena impresión. Le doy 4 porque quería otra talla y estaba agotada, pero el resto perfecto.</p>
+          <div style="display:flex;align-items:center;gap:10px"><image-slot id="rev-3" shape="circle" radius="15" style="width:30px;height:30px" placeholder="·"></image-slot><div><div style="font:600 12px 'Space Grotesk'">Diego R.</div><div class="mono" style="font-size:10px;color:var(--mut)">Compra verificada</div></div></div>
+        </div>
+      </div>
+      <p class="mono" style="font-size:10.5px;color:var(--mut);margin:16px 0 0">✎ Notas dev — Reseñas solo de compras verificadas (order_id). Orden por útiles/recientes. Media y conteo cacheados por producto. Foto opcional del cliente.</p>
+    </div>
+  </section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1300,&quot;height&quot;:980}}">
+class Component extends DCLogic {
+  state = {
+    product:'tee', color:'black', size:'M', side:'front', tech:'dtf',
+    qty:1, view:'front', cart:2
+  };
+  COLORS={ black:['Negro','#0A0E17'], white:['Blanco','#FFFFFF'], sand:['Arena','#C9C2B4'], blue:['Azul','#3B6FB0'], maroon:['Bordó','#7A3B3B'], green:['Verde','#4A7A44'] };
+  BASE={ tee:24.90, hood:44.90, mug:11.90, tote:14.90, case:16.90 };
+  TECH={ dtf:['DTF',0,'DTF: full color, ideal para diseños con degradados y detalle fino. Sin mínimo.'],
+         subl:['Sublimación',2,'Sublimación: se tiñe la fibra, tacto nulo. Solo claros/poliéster y rígidos (tazas).'],
+         serig:['Serigrafía',0,'Serigrafía: máxima durabilidad y mejor costo por volumen. Ideal 50+ u.'],
+         bord:['Bordado',6,'Bordado: acabado premium para logos. Se cotiza por nº de puntadas.'],
+         vinil:['Vinilo',1,'Vinilo textil: colores sólidos y sport. Bueno para nombres/números.'] };
+  set(k,v){ return ()=>this.setState({[k]:v}); }
+  tierPrice(q){ if(q>=200)return 16.35; if(q>=50)return 18.25; if(q>=10)return 21.50; return this.BASE[this.state.product]; }
+  fmt(n){ return '$'+n.toFixed(2).replace('.',','); }
+  renderVals(){
+    const s=this.state, cn=this.COLORS[s.color], unit=this.tierPrice(s.qty);
+    const techUp=this.TECH[s.tech][1], sideUp=s.side==='both'?4:0;
+    const per=unit+techUp+sideUp, total=per*s.qty;
+    const selOutline='outline:2px solid var(--accent);outline-offset:2px';
+    const on=(a,b)=>a===b?'on':'';
+    const tierIdx = s.qty>=200?4:s.qty>=50?3:s.qty>=10?2:1;
+    const tierCell=(i)=>({
+      Border: tierIdx===i?'var(--accent)':'var(--line)',
+      Bg: tierIdx===i?'rgba(44,92,255,.14)':'transparent',
+      Col: tierIdx===i?'var(--accent2)':'var(--txt)'
+    });
+    const T1=tierCell(1),T2=tierCell(2),T3=tierCell(3),T4=tierCell(4);
+    const viewLabels={front:'Frente',back:'Espalda',detail:'Detalle',model:'En modelo'};
+    return {
+      cartCount:s.cart,
+      colorHex:cn[1], colorName:cn[0], size:s.size,
+      techLabel:this.TECH[s.tech][0], techHint:this.TECH[s.tech][2],
+      viewLabel:viewLabels[s.view],
+      sideExtra: s.side==='both'?'Frente + espalda':'1 ubicación',
+      qty:s.qty, totalStr:this.fmt(total), unitStr:this.fmt(per),
+      // product
+      pTeeCls:on('tee',s.product),pHoodCls:on('hood',s.product),pMugCls:on('mug',s.product),pToteCls:on('tote',s.product),pCaseCls:on('case',s.product),
+      setTee:this.set('product','tee'),setHood:this.set('product','hood'),setMug:this.set('product','mug'),setTote:this.set('product','tote'),setCase:this.set('product','case'),
+      // colors (selected outline)
+      cBlackSel:s.color==='black'?selOutline:'',cWhiteSel:s.color==='white'?selOutline:'',cSandSel:s.color==='sand'?selOutline:'',cBlueSel:s.color==='blue'?selOutline:'',cMaroonSel:s.color==='maroon'?selOutline:'',cGreenSel:s.color==='green'?selOutline:'',
+      setBlack:this.set('color','black'),setWhite:this.set('color','white'),setSand:this.set('color','sand'),setBlue:this.set('color','blue'),setMaroon:this.set('color','maroon'),setGreen:this.set('color','green'),
+      // size
+      sXSCls:on('XS',s.size),sSCls:on('S',s.size),sMCls:on('M',s.size),sLCls:on('L',s.size),sXLCls:on('XL',s.size),s2XLCls:on('2XL',s.size),
+      setXS:this.set('size','XS'),setS:this.set('size','S'),setM:this.set('size','M'),setL:this.set('size','L'),setXL:this.set('size','XL'),set2XL:this.set('size','2XL'),
+      // side
+      sideFrontCls:on('front',s.side),sideBackCls:on('back',s.side),sideBothCls:on('both',s.side),
+      setSideFront:this.set('side','front'),setSideBack:this.set('side','back'),setSideBoth:this.set('side','both'),
+      // tech
+      tDTFCls:on('dtf',s.tech),tSublCls:on('subl',s.tech),tSerigCls:on('serig',s.tech),tBordCls:on('bord',s.tech),tVinilCls:on('vinil',s.tech),
+      setDTF:this.set('tech','dtf'),setSubl:this.set('tech','subl'),setSerig:this.set('tech','serig'),setBord:this.set('tech','bord'),setVinil:this.set('tech','vinil'),
+      // views
+      frontCls:on('front',s.view),backCls:on('back',s.view),detailCls:on('detail',s.view),modelCls:on('model',s.view),
+      setFront:this.set('view','front'),setBack:this.set('view','back'),setDetail:this.set('view','detail'),setModel:this.set('view','model'),
+      // qty
+      inc:()=>this.setState(p=>({qty:p.qty+1})), dec:()=>this.setState(p=>({qty:Math.max(1,p.qty-1)})),
+      addToCart:()=>this.setState(p=>({cart:p.cart+p.qty})),
+      // tiers
+      t1Border:T1.Border,t1Bg:T1.Bg,t1Col:T1.Col,t2Border:T2.Border,t2Bg:T2.Bg,t2Col:T2.Col,t3Border:T3.Border,t3Bg:T3.Bg,t3Col:T3.Col,t4Border:T4.Border,t4Bg:T4.Bg,t4Col:T4.Col
+    };
+  }
+}
+</script>
+</body>
+</html>

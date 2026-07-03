@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    overflow-x:hidden;
+    --ink:#080B14; --ink2:#0E1322; --ink3:#151C2E;
+    --accent:#2C5CFF; --accent2:#4D7BFF;
+    --cyan:#2BD9E4; --magenta:#FF3D8B; --yellow:#FFC93D;
+    --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.14);
+    --txt:#EDF1FB; --mut:#8A93AD;
+    --lbg:#F4F6FC; --lcard:#FFFFFF; --lline:#E5E9F3; --ltxt:#0A0E17; --lmut:#61698A;
+    --grid-op:1;
+    background:var(--ink); color:var(--txt);
+    font-family:'Inter',system-ui,sans-serif; -webkit-font-smoothing:antialiased;
+  }
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+  @keyframes floaty2{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
+  @keyframes orb{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,-20px) scale(1.08)}}
+  @keyframes marq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes pulseDot{0%,100%{opacity:.35;transform:scale(1)}50%{opacity:1;transform:scale(1.35)}}
+  @keyframes sheen{0%{background-position:-200% 0}100%{background-position:200% 0}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;position:relative">
+
+  <!-- ================= PROMO BAR ================= -->
+  <div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:7px 16px;background:var(--ink3);font:700 11px 'Space Mono';letter-spacing:.5px;color:var(--mut);text-align:center">
+    Entrega express 24–48h en todo el país
+  </div>
+
+  <!-- ================= NAV ================= -->
+  <nav style="position:sticky;top:0;z-index:50;display:flex;flex-direction:column;backdrop-filter:blur(18px);background:rgba(8,11,20,.72);border-bottom:1px solid var(--line)">
+    <!-- row 1 -->
+    <div style="display:flex;align-items:center;gap:26px;max-width:1280px;width:100%;margin:0 auto;padding:15px 40px;box-sizing:border-box">
+      <a href="#top" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--txt)">
+        <span style="position:relative;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center">
+          <span style="position:absolute;width:14px;height:14px;border-radius:50%;background:var(--cyan);mix-blend-mode:screen;left:0;top:6px"></span>
+          <span style="position:absolute;width:14px;height:14px;border-radius:50%;background:var(--magenta);mix-blend-mode:screen;right:0;top:6px"></span>
+          <span style="position:absolute;width:14px;height:14px;border-radius:50%;background:var(--yellow);mix-blend-mode:screen;left:6px;top:0"></span>
+        </span>
+        <span style="font:600 20px 'Space Grotesk';letter-spacing:-.3px">Fluvë<span style="color:var(--mut);font-weight:400"> studio</span></span>
+      </a>
+      <div style="display:flex;align-items:center;gap:20px;font:500 13.5px 'Inter';color:var(--mut);margin-left:8px;white-space:nowrap">
+        <a href="#productos" style="color:inherit;text-decoration:none" style-hover="color:var(--txt)">Productos</a>
+        <a href="#galeria" style="color:inherit;text-decoration:none" style-hover="color:var(--txt)">Galería</a>
+        <a href="#como" style="color:inherit;text-decoration:none" style-hover="color:var(--txt)">Cómo funciona</a>
+        <a href="#empresas" style="color:inherit;text-decoration:none" style-hover="color:var(--txt)">Empresas</a>
+        <a href="#" style="color:var(--accent2);font-weight:600;text-decoration:none" style-hover="color:var(--txt)">Vende tu arte</a>
+      </div>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:16px">
+        <span style="font:700 11px 'Space Mono';color:var(--mut);border:1px solid var(--line2);border-radius:20px;padding:5px 10px;cursor:pointer">ES · <span style="color:var(--txt)">EN</span></span>
+        <span style="display:flex;align-items:center;gap:7px;border:1.5px solid var(--line2);background:var(--ink2);border-radius:16px;padding:6px 12px" title="Buscar — el ícono se expande a este input al hacer click (ver React)">
+          <span style="color:var(--mut);font:13px 'Inter'">Buscar diseños…</span>
+          <span style="color:var(--mut);font-size:13px">⌕</span>
+        </span>
+        <span style="position:relative;font-size:16px;color:var(--mut);cursor:pointer" title="Carrito">
+          🛒
+          <span style="position:absolute;top:-6px;right:-9px;width:15px;height:15px;border-radius:50%;background:var(--accent);color:#fff;font:700 9px 'Space Mono';display:flex;align-items:center;justify-content:center">2</span>
+        </span>
+        <span style="font-size:16px;color:var(--mut);cursor:pointer" title="Favoritos">♡</span>
+        <span style="display:inline-flex;align-items:center;font:600 13px 'Space Grotesk';color:var(--ink);background:var(--txt);padding:8px 18px;border-radius:22px;cursor:pointer" style-hover="transform:translateY(-1px)">Únete</span>
+      </div>
+    </div>
+    <!-- row 2: categorías -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:22px;max-width:1280px;width:100%;margin:0 auto;padding:11px 40px;border-top:1px solid var(--line);font:600 12px 'Space Grotesk';letter-spacing:.4px;text-transform:uppercase;color:var(--mut);box-sizing:border-box;flex-wrap:wrap">
+      <a href="#" style="color:inherit;text-decoration:none" style-hover="color:var(--txt)">Artistas</a>
+      <a href="#" style="color:inherit;text-decoration:none" style-hover="color:var(--txt)">Temas</a>
+      <a href="#" style="color:inherit;text-decoration:none" style-hover="color:var(--txt)">Ropa</a>
+      <a href="#" style="color:inherit;text-decoration:none" style-hover="color:var(--txt)">Headwear</a>
+      <a href="#" style="color:inherit;text-decoration:none" style-hover="color:var(--txt)">Accesorios</a>
+      <a href="#" style="color:inherit;text-decoration:none" style-hover="color:var(--txt)">Arte de la pared</a>
+      <a href="#" style="color:inherit;text-decoration:none" style-hover="color:var(--txt)">Decoración</a>
+    </div>
+  </nav>
+
+  <!-- ================= HERO ================= -->
+  <header id="top" style="position:relative;padding:70px 40px 40px">
+    <!-- background glows + grid -->
+    <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none">
+      <div style="position:absolute;inset:0;opacity:var(--grid-op);background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 80% 60% at 50% 30%,#000 40%,transparent 100%)"></div>
+      <div style="position:absolute;width:520px;height:520px;left:-80px;top:-120px;background:radial-gradient(circle,var(--accent) 0%,transparent 68%);opacity:.5;filter:blur(20px);animation:orb 14s ease-in-out infinite"></div>
+      <div style="position:absolute;width:440px;height:440px;right:-60px;top:40px;background:radial-gradient(circle,var(--magenta) 0%,transparent 66%);opacity:.28;filter:blur(24px);animation:orb 18s ease-in-out infinite reverse"></div>
+    </div>
+
+    <div style="position:relative;max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center">
+      <!-- left copy -->
+      <div>
+        <div style="display:inline-flex;align-items:center;gap:9px;font:700 11px 'Space Mono';letter-spacing:1.5px;text-transform:uppercase;color:var(--mut);border:1px solid var(--line2);border-radius:30px;padding:7px 13px;margin-bottom:22px">
+          <span style="width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:pulseDot 2.4s infinite"></span>
+          Imprenta digital · Uruguay
+        </div>
+        <h1 style="font:600 62px/1.02 'Space Grotesk';letter-spacing:-2px;margin:0 0 20px">
+          Imprimimos tus<br>ideas.
+          <span style="background:linear-gradient(100deg,var(--accent2),var(--cyan));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">Potenciamos</span><br>tu marca.
+        </h1>
+        <p style="font:400 16.5px/1.6 'Inter';color:var(--mut);max-width:440px;margin:0 0 30px">Personalizá, pagá y recibí. Impresión de alta calidad sobre remeras, hoodies, tazas, tote bags y más — con un unboxing premium a tu puerta.</p>
+        <div style="display:flex;gap:12px;margin-bottom:34px">
+          <a href="#productos" style="display:inline-flex;align-items:center;gap:9px;font:600 15px 'Space Grotesk';color:#fff;background:var(--accent);padding:14px 24px;border-radius:30px;text-decoration:none;box-shadow:0 12px 30px -8px var(--accent)" style-hover="transform:translateY(-2px)">Explorar galería <span>→</span></a>
+          <a href="#como" style="display:inline-flex;align-items:center;gap:9px;font:600 15px 'Space Grotesk';color:var(--txt);background:transparent;border:1px solid var(--line2);padding:14px 22px;border-radius:30px;text-decoration:none" style-hover="border-color:var(--txt)">Cómo funciona</a>
+        </div>
+        <div style="display:flex;gap:30px">
+          <div><div style="font:600 26px 'Space Grotesk';color:var(--txt)">24–48<span style="font-size:15px;color:var(--mut)">h</span></div><div style="font:500 12px 'Inter';color:var(--mut)">Entrega express</div></div>
+          <div style="width:1px;background:var(--line)"></div>
+          <div><div style="font:600 26px 'Space Grotesk';color:var(--txt)">8<span style="font-size:15px;color:var(--mut)">+ técnicas</span></div><div style="font:500 12px 'Inter';color:var(--mut)">DTF · Subl · Bordado…</div></div>
+          <div style="width:1px;background:var(--line)"></div>
+          <div><div style="font:600 26px 'Space Grotesk';color:var(--txt)">100<span style="font-size:15px;color:var(--mut)">%</span></div><div style="font:500 12px 'Inter';color:var(--mut)">Control de calidad</div></div>
+        </div>
+      </div>
+
+      <!-- right hero visual -->
+      <div style="position:relative;height:480px">
+        <div style="position:absolute;inset:0;border-radius:24px;background:linear-gradient(160deg,var(--ink3),var(--ink2));border:1px solid var(--line2);overflow:hidden">
+          <div style="position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:34px 34px;opacity:.5"></div>
+          <image-slot id="hero-main" shape="rounded" radius="0" style="position:absolute;inset:0;width:100%;height:100%" placeholder="Producto estrella — remera/hoodie premium sobre fondo oscuro"></image-slot>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(8,11,20,.85));pointer-events:none"></div>
+        </div>
+        <!-- floating chips -->
+        <div style="position:absolute;top:26px;left:-22px;display:flex;align-items:center;gap:10px;background:rgba(14,19,34,.9);backdrop-filter:blur(10px);border:1px solid var(--line2);border-radius:14px;padding:11px 14px;animation:floaty 6s ease-in-out infinite;box-shadow:0 20px 40px -16px #000">
+          <span style="width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:16px">⚡</span>
+          <div><div style="font:600 13px 'Space Grotesk';color:var(--txt)">Producción hoy</div><div style="font:500 11px 'Inter';color:var(--mut)">Listo en 24–48h</div></div>
+        </div>
+        <div style="position:absolute;bottom:36px;right:-20px;display:flex;align-items:center;gap:10px;background:rgba(14,19,34,.9);backdrop-filter:blur(10px);border:1px solid var(--line2);border-radius:14px;padding:11px 14px;animation:floaty2 7s ease-in-out infinite;box-shadow:0 20px 40px -16px #000">
+          <div style="display:flex;gap:4px">
+            <span style="width:11px;height:11px;border-radius:50%;background:var(--cyan)"></span>
+            <span style="width:11px;height:11px;border-radius:50%;background:var(--magenta)"></span>
+            <span style="width:11px;height:11px;border-radius:50%;background:var(--yellow)"></span>
+          </div>
+          <div><div style="font:600 13px 'Space Grotesk';color:var(--txt)">Color exacto</div><div style="font:500 11px 'Inter';color:var(--mut)">Perfil CMYK calibrado</div></div>
+        </div>
+        <!-- register mark -->
+        <div style="position:absolute;top:-16px;right:34px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;animation:spin 22s linear infinite">
+          <span style="position:absolute;width:100%;height:1px;background:var(--line2)"></span>
+          <span style="position:absolute;height:100%;width:1px;background:var(--line2)"></span>
+          <span style="width:8px;height:8px;border-radius:50%;border:1px solid var(--cyan)"></span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= TECHNIQUE MARQUEE ================= -->
+  <div style="position:relative;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0;overflow:hidden;background:var(--ink2)">
+    <div style="display:flex;gap:0;width:max-content;animation:marq 26s linear infinite">
+      <div style="display:flex;gap:44px;padding-right:44px;font:700 13px 'Space Mono';letter-spacing:1px;text-transform:uppercase;color:var(--mut);align-items:center">
+        <span>DTF</span><span style="color:var(--accent2)">◆</span><span>Sublimación</span><span style="color:var(--cyan)">◆</span><span>Serigrafía</span><span style="color:var(--magenta)">◆</span><span>Bordado</span><span style="color:var(--yellow)">◆</span><span>DTF UV</span><span style="color:var(--accent2)">◆</span><span>Vinilo textil</span><span style="color:var(--cyan)">◆</span><span>Gran formato</span><span style="color:var(--magenta)">◆</span><span>Impresión directa</span><span style="color:var(--yellow)">◆</span>
+      </div>
+      <div style="display:flex;gap:44px;padding-right:44px;font:700 13px 'Space Mono';letter-spacing:1px;text-transform:uppercase;color:var(--mut);align-items:center" aria-hidden="true">
+        <span>DTF</span><span style="color:var(--accent2)">◆</span><span>Sublimación</span><span style="color:var(--cyan)">◆</span><span>Serigrafía</span><span style="color:var(--magenta)">◆</span><span>Bordado</span><span style="color:var(--yellow)">◆</span><span>DTF UV</span><span style="color:var(--accent2)">◆</span><span>Vinilo textil</span><span style="color:var(--cyan)">◆</span><span>Gran formato</span><span style="color:var(--magenta)">◆</span><span>Impresión directa</span><span style="color:var(--yellow)">◆</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PRODUCTS ================= -->
+  <section id="productos" style="padding:76px 40px;max-width:1280px;margin:0 auto">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:34px">
+      <div>
+        
+        <h2 style="font:600 40px/1.05 'Space Grotesk';letter-spacing:-1px;margin:0">Elegí tu producto</h2>
+      </div>
+      <a href="#galeria" style="font:600 14px 'Space Grotesk';color:var(--mut);text-decoration:none" style-hover="color:var(--txt)">Ver todo el catálogo →</a>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+      <!-- big feature card -->
+      <a href="#" style="grid-row:span 2;position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line2);background:var(--ink2);text-decoration:none;min-height:420px;display:flex" style-hover="border-color:var(--accent)">
+        <image-slot id="p-feat" shape="rounded" radius="0" style="position:absolute;inset:0;width:100%;height:100%" placeholder="Remera premium — foto grande"></image-slot>
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(8,11,20,.9));pointer-events:none"></div>
+        <div style="position:relative;margin-top:auto;padding:22px;pointer-events:none">
+          <div style="font:700 10px 'Space Mono';letter-spacing:1px;text-transform:uppercase;color:var(--cyan);margin-bottom:8px">Más pedido</div>
+          <div style="font:600 26px 'Space Grotesk';color:#fff;margin-bottom:4px">Remera</div>
+          <div style="font:500 13px 'Inter';color:var(--mut)">DTF · DTG · Serigrafía · Vinilo · desde $24,90</div>
+        </div>
+      </a>
+      <a href="#" style="position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line2);background:var(--ink2);text-decoration:none;min-height:202px;display:flex" style-hover="border-color:var(--accent)">
+        <image-slot id="p-2" shape="rounded" radius="0" style="position:absolute;inset:0;width:100%;height:100%" placeholder="Hoodie"></image-slot>
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(8,11,20,.88));pointer-events:none"></div>
+        <div style="position:relative;margin-top:auto;padding:16px;pointer-events:none"><div style="font:600 18px 'Space Grotesk';color:#fff">Hoodie</div><div style="font:500 11.5px 'Inter';color:var(--mut)">desde $44,90</div></div>
+      </a>
+      <a href="#" style="position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line2);background:var(--ink2);text-decoration:none;min-height:202px;display:flex" style-hover="border-color:var(--accent)">
+        <image-slot id="p-3" shape="rounded" radius="0" style="position:absolute;inset:0;width:100%;height:100%" placeholder="Taza"></image-slot>
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(8,11,20,.88));pointer-events:none"></div>
+        <div style="position:relative;margin-top:auto;padding:16px;pointer-events:none"><div style="font:600 18px 'Space Grotesk';color:#fff">Taza</div><div style="font:500 11.5px 'Inter';color:var(--mut)">desde $11,90</div></div>
+      </a>
+      <a href="#" style="position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line2);background:var(--ink2);text-decoration:none;min-height:202px;display:flex" style-hover="border-color:var(--accent)">
+        <image-slot id="p-4" shape="rounded" radius="0" style="position:absolute;inset:0;width:100%;height:100%" placeholder="Tote bag"></image-slot>
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(8,11,20,.88));pointer-events:none"></div>
+        <div style="position:relative;margin-top:auto;padding:16px;pointer-events:none"><div style="font:600 18px 'Space Grotesk';color:#fff">Tote bag</div><div style="font:500 11.5px 'Inter';color:var(--mut)">desde $14,90</div></div>
+      </a>
+      <a href="#" style="position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line2);background:var(--ink2);text-decoration:none;min-height:202px;display:flex" style-hover="border-color:var(--accent)">
+        <image-slot id="p-5" shape="rounded" radius="0" style="position:absolute;inset:0;width:100%;height:100%" placeholder="Funda móvil"></image-slot>
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(8,11,20,.88));pointer-events:none"></div>
+        <div style="position:relative;margin-top:auto;padding:16px;pointer-events:none"><div style="font:600 18px 'Space Grotesk';color:#fff">Funda</div><div style="font:500 11.5px 'Inter';color:var(--mut)">desde $16,90</div></div>
+      </a>
+      <a href="#galeria" style="position:relative;border-radius:20px;overflow:hidden;border:1px dashed var(--line2);background:transparent;text-decoration:none;min-height:202px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px" style-hover="border-color:var(--accent);background:var(--ink2)">
+        <span style="width:44px;height:44px;border-radius:50%;background:var(--ink3);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--accent2)">+</span>
+        <div style="font:600 14px 'Space Grotesk';color:var(--txt)">Ver 13 productos</div>
+        <div style="font:500 11.5px 'Inter';color:var(--mut)">Botella · Cuadro · Lámina · Mochila…</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ================= CUSTOMIZER TEASER ================= -->
+  <section style="padding:20px 40px 76px;max-width:1280px;margin:0 auto">
+    <div style="position:relative;border-radius:26px;overflow:hidden;border:1px solid var(--line2);background:linear-gradient(135deg,var(--ink2),var(--ink3))">
+      <div style="position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:44px 44px;opacity:.4;mask-image:radial-gradient(circle at 70% 40%,#000,transparent 75%)"></div>
+      <div style="position:absolute;width:360px;height:360px;right:8%;top:-40px;background:radial-gradient(circle,var(--accent) 0%,transparent 70%);opacity:.35;filter:blur(10px)"></div>
+      <div style="position:relative;display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center;padding:48px">
+        <div>
+          
+          <h2 style="font:600 38px/1.06 'Space Grotesk';letter-spacing:-1px;margin:0 0 16px">Vela antes de<br>que exista.</h2>
+          <p style="font:400 15.5px/1.6 'Inter';color:var(--mut);max-width:420px;margin:0 0 26px">Elegí prenda, color, talla y técnica — o subí tu propio diseño. El mockup se renderiza al instante para que decidas con confianza.</p>
+          <div style="display:flex;flex-direction:column;gap:12px;max-width:400px">
+            <div style="display:flex;align-items:center;gap:12px"><span style="font:700 11px 'Space Mono';color:var(--mut);width:60px">COLOR</span><div style="display:flex;gap:8px">
+              <span style="width:26px;height:26px;border-radius:50%;background:#0A0E17;outline:2px solid var(--accent);outline-offset:2px"></span>
+              <span style="width:26px;height:26px;border-radius:50%;background:#fff"></span>
+              <span style="width:26px;height:26px;border-radius:50%;background:#C9C2B4"></span>
+              <span style="width:26px;height:26px;border-radius:50%;background:#3B6FB0"></span>
+              <span style="width:26px;height:26px;border-radius:50%;background:#7A3B3B"></span>
+            </div></div>
+            <div style="display:flex;align-items:center;gap:12px"><span style="font:700 11px 'Space Mono';color:var(--mut);width:60px">TALLA</span><div style="display:flex;gap:6px">
+              <span style="font:600 12px 'Space Grotesk';padding:6px 11px;border-radius:9px;border:1px solid var(--line2);color:var(--mut)">S</span>
+              <span style="font:600 12px 'Space Grotesk';padding:6px 11px;border-radius:9px;background:var(--txt);color:var(--ink)">M</span>
+              <span style="font:600 12px 'Space Grotesk';padding:6px 11px;border-radius:9px;border:1px solid var(--line2);color:var(--mut)">L</span>
+              <span style="font:600 12px 'Space Grotesk';padding:6px 11px;border-radius:9px;border:1px solid var(--line2);color:var(--mut)">XL</span>
+            </div></div>
+            <div style="display:flex;align-items:center;gap:12px"><span style="font:700 11px 'Space Mono';color:var(--mut);width:60px">TÉCNICA</span><div style="display:flex;gap:6px;flex-wrap:wrap">
+              <span style="font:600 12px 'Space Grotesk';padding:6px 11px;border-radius:9px;background:rgba(44,92,255,.16);color:var(--accent2);border:1px solid var(--accent)">DTF</span>
+              <span style="font:600 12px 'Space Grotesk';padding:6px 11px;border-radius:9px;border:1px solid var(--line2);color:var(--mut)">Serigrafía</span>
+              <span style="font:600 12px 'Space Grotesk';padding:6px 11px;border-radius:9px;border:1px solid var(--line2);color:var(--mut)">Bordado</span>
+            </div></div>
+          </div>
+          <a href="#" style="display:inline-flex;align-items:center;gap:9px;font:600 15px 'Space Grotesk';color:#fff;background:var(--accent);padding:13px 24px;border-radius:30px;text-decoration:none;margin-top:28px;box-shadow:0 12px 30px -8px var(--accent)" style-hover="transform:translateY(-2px)">Abrir personalizador <span>→</span></a>
+        </div>
+        <div style="position:relative;height:420px">
+          <image-slot id="cust-mock" shape="rounded" radius="18" style="position:absolute;inset:0;width:100%;height:100%;border:1px solid var(--line2)" placeholder="Mockup en vivo: diseño aplicado sobre la prenda"></image-slot>
+          <div style="position:absolute;top:16px;left:16px;font:700 10px 'Space Mono';letter-spacing:1px;color:var(--txt);background:rgba(8,11,20,.7);backdrop-filter:blur(8px);border:1px solid var(--line2);border-radius:20px;padding:6px 11px">● VISTA EN VIVO</div>
+          <div style="position: absolute; bottom: 16px; right: 16px; display: flex; align-items: center; gap: 9px; backdrop-filter: blur(8px); border: 1px solid var(--line2); border-radius: 14px; padding: 10px 14px; background-color: #080B14CC">
+            <div><div style="font:500 10px 'Inter';color:var(--mut)">Precio en vivo</div><div style="font:600 20px 'Space Grotesk';color:var(--txt)">$24,90</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GALLERY ================= -->
+  <section id="galeria" style="padding:20px 40px 80px;max-width:1280px;margin:0 auto">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:16px">
+      <div>
+        
+        <h2 style="font:600 40px/1.05 'Space Grotesk';letter-spacing:-1px;margin:0">Diseños destacados</h2>
+      </div>
+      <a href="#" style="font:600 14px 'Space Grotesk';color:var(--mut);text-decoration:none" style-hover="color:var(--txt)">Explorar 128 diseños →</a>
+    </div>
+    <div style="display:flex;gap:9px;margin-bottom:22px;flex-wrap:wrap">
+      <span style="font:600 12.5px 'Space Grotesk';padding:8px 15px;border-radius:22px;background:var(--txt);color:var(--ink)">Todos</span>
+      <span style="font:600 12.5px 'Space Grotesk';padding:8px 15px;border-radius:22px;border:1px solid var(--line2);color:var(--mut)">Ilustración</span>
+      <span style="font:600 12.5px 'Space Grotesk';padding:8px 15px;border-radius:22px;border:1px solid var(--line2);color:var(--mut)">Tipografía</span>
+      <span style="font:600 12.5px 'Space Grotesk';padding:8px 15px;border-radius:22px;border:1px solid var(--line2);color:var(--mut)">Abstracto</span>
+      <span style="font:600 12.5px 'Space Grotesk';padding:8px 15px;border-radius:22px;border:1px solid var(--line2);color:var(--mut)">Streetwear</span>
+      <span style="font:600 12.5px 'Space Grotesk';padding:8px 15px;border-radius:22px;border:1px solid var(--line2);color:var(--mut)">Retro</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+      <div style="border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--ink2)" style-hover="border-color:var(--line2)">
+        <image-slot id="g-1" shape="rounded" radius="0" style="width:100%;aspect-ratio:4/5;display:block" placeholder="Diseño 1"></image-slot>
+        <div style="padding:13px 15px;display:flex;justify-content:space-between;align-items:center"><div><div style="font:600 14px 'Space Grotesk';color:var(--txt)">Solar Bloom</div><div style="font:500 11.5px 'Inter';color:var(--mut)">@kookylove</div></div><span style="font:700 10px 'Space Mono';color:var(--cyan)">5 prod.</span></div>
+      </div>
+      <div style="border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--ink2)" style-hover="border-color:var(--line2)">
+        <image-slot id="g-2" shape="rounded" radius="0" style="width:100%;aspect-ratio:4/5;display:block" placeholder="Diseño 2"></image-slot>
+        <div style="padding:13px 15px;display:flex;justify-content:space-between;align-items:center"><div><div style="font:600 14px 'Space Grotesk';color:var(--txt)">Night Shift</div><div style="font:500 11.5px 'Inter';color:var(--mut)">@studiofolk</div></div><span style="font:700 10px 'Space Mono';color:var(--cyan)">5 prod.</span></div>
+      </div>
+      <div style="border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--ink2)" style-hover="border-color:var(--line2)">
+        <image-slot id="g-3" shape="rounded" radius="0" style="width:100%;aspect-ratio:4/5;display:block" placeholder="Diseño 3"></image-slot>
+        <div style="padding:13px 15px;display:flex;justify-content:space-between;align-items:center"><div><div style="font:600 14px 'Space Grotesk';color:var(--txt)">Escape Beach</div><div style="font:500 11.5px 'Inter';color:var(--mut)">@lettering.uy</div></div><span style="font:700 10px 'Space Mono';color:var(--cyan)">5 prod.</span></div>
+      </div>
+      <div style="border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--ink2)" style-hover="border-color:var(--line2)">
+        <image-slot id="g-4" shape="rounded" radius="0" style="width:100%;aspect-ratio:4/5;display:block" placeholder="Diseño 4"></image-slot>
+        <div style="padding:13px 15px;display:flex;justify-content:space-between;align-items:center"><div><div style="font:600 14px 'Space Grotesk';color:var(--txt)">Dino Anatomy</div><div style="font:500 11.5px 'Inter';color:var(--mut)">@kookylove</div></div><span style="font:700 10px 'Space Mono';color:var(--cyan)">5 prod.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= HOW IT WORKS ================= -->
+  <section id="como" style="padding:20px 40px 84px;max-width:1280px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:44px">
+      
+      <h2 style="font:600 40px/1.05 'Space Grotesk';letter-spacing:-1px;margin:0">Del clic a tu puerta en 4 pasos</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+      <div style="position:relative;border-radius:18px;border:1px solid var(--line);background:var(--ink2);padding:26px 22px" style-hover="border-color:var(--line2)">
+        <div style="font: 700 12px 'Space Mono'; color: var(--accent2); margin-bottom: 20px; font-size: 32px">01</div>
+        <div style="font:600 19px 'Space Grotesk';color:var(--txt);margin-bottom:8px">Elegí o subí tu diseño</div>
+        <div style="font:400 13.5px/1.55 'Inter';color:var(--mut)">De la galería o con tu propio archivo. Te avisamos si necesita ajustes de calidad.</div>
+      </div>
+      <div style="position:relative;border-radius:18px;border:1px solid var(--line);background:var(--ink2);padding:26px 22px" style-hover="border-color:var(--line2)">
+        <div style="font: 700 12px 'Space Mono'; color: var(--cyan); margin-bottom: 20px; font-size: 32px">02</div>
+        <div style="font:600 19px 'Space Grotesk';color:var(--txt);margin-bottom:8px">Personalizá</div>
+        <div style="font:400 13.5px/1.55 'Inter';color:var(--mut)">Producto, color, talla y técnica. El precio se calcula en vivo, con descuentos por cantidad.</div>
+      </div>
+      <div style="position:relative;border-radius:18px;border:1px solid var(--line);background:var(--ink2);padding:26px 22px" style-hover="border-color:var(--line2)">
+        <div style="font: 700 12px 'Space Mono'; color: var(--magenta); margin-bottom: 20px; font-size: 32px">03</div>
+        <div style="font:600 19px 'Space Grotesk';color:var(--txt);margin-bottom:8px">Producimos + QC</div>
+        <div style="font:400 13.5px/1.55 'Inter';color:var(--mut)">Imprenta aliada + control de calidad estricto y acabados finales bajo nuestra marca.</div>
+      </div>
+      <div style="position:relative;border-radius:18px;border:1px solid var(--accent);background:linear-gradient(160deg,rgba(44,92,255,.14),var(--ink2));padding:26px 22px">
+        <div style="font: 700 12px 'Space Mono'; color: var(--yellow); margin-bottom: 20px; font-size: 32px">04</div>
+        <div style="font:600 19px 'Space Grotesk';color:var(--txt);margin-bottom:8px">Recibís en 24–48h</div>
+        <div style="font:400 13.5px/1.55 'Inter';color:var(--mut)">Con packaging premium y ese efecto unboxing que enamora.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= UNBOXING / TRUST ================= -->
+  <section id="empresas" style="padding:20px 40px 84px;max-width:1280px;margin:0 auto">
+    <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:16px">
+      <div style="position:relative;border-radius:24px;overflow:hidden;border:1px solid var(--line2);min-height:340px;display:flex">
+        <image-slot id="unbox" shape="rounded" radius="0" style="position:absolute;inset:0;width:100%;height:100%" placeholder="Unboxing premium — caja Fluvë"></image-slot>
+        <div style="position: absolute; inset: 0; background: linear-gradient(115deg,rgba(8,11,20,.9) 20%,transparent 75%); pointer-events: none; top: 0.39999999999997726px"></div>
+        <div style="position:relative;margin-top:auto;padding:34px;max-width:440px;pointer-events:none">
+          <div style="font:700 11px 'Space Mono';letter-spacing:1.5px;text-transform:uppercase;color:var(--yellow);margin-bottom:12px">Experiencia de marca</div>
+          <h3 style="font:600 30px/1.1 'Space Grotesk';letter-spacing:-.5px;margin:0 0 12px;color:#fff">El efecto unboxing Fluvë</h3>
+          <p style="font: 400 14.5px/1.6 'Inter'; color: #C4CBDE; margin: 0">Cada pedido pasa por control de calidad y se empaqueta con acabados y una caja bajo nuestra identidad. Abrirlo también es parte del producto.</p>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="flex:1;border-radius:24px;border:1px solid var(--line2);background:linear-gradient(150deg,var(--ink3),var(--ink2));padding:28px;display:flex;flex-direction:column;justify-content:center">
+          <div style="font:600 46px 'Space Grotesk';letter-spacing:-1.5px;color:var(--txt)">+1.200</div>
+          <div style="font:500 13px 'Inter';color:var(--mut);margin-top:4px">pedidos entregados en 24–48h</div>
+          <div style="height:1px;background:var(--line);margin:20px 0"></div>
+          <div style="display:flex;gap:2px;margin-bottom:6px"><span style="color:var(--yellow)">★★★★★</span></div>
+          <p style="font:400 14px/1.55 'Inter';color:#C4CBDE;margin:0 0 12px">"Calidad impecable y llegó al día siguiente. El packaging es otro nivel."</p>
+          <div style="display:flex;align-items:center;gap:10px">
+            <image-slot id="ava" shape="circle" radius="16" style="width:32px;height:32px" placeholder="·"></image-slot>
+            <div><div style="font:600 12.5px 'Space Grotesk';color:var(--txt)">Estudio Creativo</div><div style="font:500 11px 'Inter';color:var(--mut)">Cliente mayorista</div></div>
+          </div>
+        </div>
+        <div style="border-radius:24px;border:1px solid var(--line2);background:var(--ink2);padding:24px 28px;display:flex;align-items:center;gap:16px">
+          <div style="display:flex;gap:5px">
+            <span style="width:13px;height:13px;border-radius:50%;background:var(--cyan)"></span>
+            <span style="width:13px;height:13px;border-radius:50%;background:var(--magenta)"></span>
+            <span style="width:13px;height:13px;border-radius:50%;background:var(--yellow)"></span>
+            <span style="width:13px;height:13px;border-radius:50%;background:var(--txt)"></span>
+          </div>
+          <div><div style="font:600 14px 'Space Grotesk';color:var(--txt)">Color garantizado</div><div style="font:500 11.5px 'Inter';color:var(--mut)">Perfiles CMYK calibrados por técnica</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FINAL CTA ================= -->
+  <section style="padding:20px 40px 90px;max-width:1280px;margin:0 auto">
+    <div style="position:relative;border-radius:28px;overflow:hidden;border:1px solid var(--line2);background:linear-gradient(120deg,var(--accent) -10%,var(--ink2) 55%);padding:64px 48px;text-align:center">
+      <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:46px 46px;mask-image:radial-gradient(circle at 50% 50%,#000,transparent 70%)"></div>
+      <div style="position:relative">
+        <h2 style="font:600 46px/1.05 'Space Grotesk';letter-spacing:-1.5px;margin:0 0 16px;color:#fff">¿Listo para imprimir tu idea?</h2>
+        <p style="font:400 16px/1.6 'Inter';color:#D5DBEC;max-width:460px;margin:0 auto 30px">Empezá ahora y recibí tu producto premium en 24 a 48 horas.</p>
+        <div style="display:flex;gap:12px;justify-content:center">
+          <a href="#productos" style="font:600 15px 'Space Grotesk';color:var(--ink);background:#fff;padding:14px 26px;border-radius:30px;text-decoration:none" style-hover="transform:translateY(-2px)">Personalizar producto</a>
+          <a href="#galeria" style="font:600 15px 'Space Grotesk';color:#fff;border:1px solid rgba(255,255,255,.35);padding:14px 24px;border-radius:30px;text-decoration:none" style-hover="border-color:#fff">Explorar galería</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer style="border-top:1px solid var(--line);padding:52px 40px 34px;background:var(--ink2)">
+    <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:30px">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+          <span style="position:relative;width:22px;height:22px;display:inline-flex">
+            <span style="position:absolute;width:12px;height:12px;border-radius:50%;background:var(--cyan);mix-blend-mode:screen;left:0;top:5px"></span>
+            <span style="position:absolute;width:12px;height:12px;border-radius:50%;background:var(--magenta);mix-blend-mode:screen;right:0;top:5px"></span>
+            <span style="position:absolute;width:12px;height:12px;border-radius:50%;background:var(--yellow);mix-blend-mode:screen;left:5px;top:0"></span>
+          </span>
+          <span style="font:600 18px 'Space Grotesk'">Fluvë studio</span>
+        </div>
+        <p style="font:400 13.5px/1.6 'Inter';color:var(--mut);max-width:300px;margin:0 0 16px">Impresión personalizada de alta gama en Uruguay. Tu visión, con acabado premium y entrega express.</p>
+        <div style="display:flex;gap:10px">
+          <span style="width:34px;height:34px;border-radius:10px;border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:13px">in</span>
+          <span style="width:34px;height:34px;border-radius:10px;border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:13px">ig</span>
+          <span style="width:34px;height:34px;border-radius:10px;border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:13px">wa</span>
+        </div>
+      </div>
+      <div>
+        <div style="font:700 10.5px 'Space Mono';letter-spacing:1px;text-transform:uppercase;color:var(--mut);margin-bottom:14px">Productos</div>
+        <div style="display:flex;flex-direction:column;gap:10px;font:500 13.5px 'Inter';color:var(--mut)"><span>Remeras</span><span>Hoodies</span><span>Tazas</span><span>Tote bags</span><span>Fundas</span></div>
+      </div>
+      <div>
+        <div style="font:700 10.5px 'Space Mono';letter-spacing:1px;text-transform:uppercase;color:var(--mut);margin-bottom:14px">Empresas</div>
+        <div style="display:flex;flex-direction:column;gap:10px;font:500 13.5px 'Inter';color:var(--mut)"><span>Merch de marca</span><span>Pedidos mayoristas</span><span>Vende tu arte</span><span>Cotización B2B</span></div>
+      </div>
+      <div>
+        <div style="font:700 10.5px 'Space Mono';letter-spacing:1px;text-transform:uppercase;color:var(--mut);margin-bottom:14px">Ayuda</div>
+        <div style="display:flex;flex-direction:column;gap:10px;font:500 13.5px 'Inter';color:var(--mut)"><span>Cómo funciona</span><span>Envíos</span><span>Preguntas frecuentes</span><span>Contacto</span></div>
+      </div>
+    </div>
+    <div style="max-width:1280px;margin:34px auto 0;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;font:500 12px 'Inter';color:var(--mut)">
+      <span>© 2026 Fluvë Studio. Hecho en Uruguay.</span>
+      <div style="display:flex;gap:18px"><span>Términos</span><span>Privacidad</span><span>Cookies</span></div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900},&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#2C5CFF&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#2C5CFF&quot;,&quot;#2BD9E4&quot;,&quot;#FF3D8B&quot;,&quot;#7A5CFF&quot;],&quot;section&quot;:&quot;Marca&quot;},&quot;showGrid&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Estilo&quot;}}">
+class Component extends DCLogic {
+  componentDidMount(){ this.applyTheme(); }
+  componentDidUpdate(){ this.applyTheme(); }
+  applyTheme(){
+    const r = document.documentElement;
+    const acc = this.props.accentColor || '#2C5CFF';
+    r.style.setProperty('--accent', acc);
+    r.style.setProperty('--accent2', this.lighten(acc, 0.18));
+    r.style.setProperty('--grid-op', this.props.showGrid === false ? '0' : '1');
+  }
+  lighten(hex, amt){
+    try{
+      const n = parseInt(hex.replace('#',''),16);
+      let R=(n>>16)+Math.round(255*amt), G=((n>>8)&255)+Math.round(255*amt), B=(n&255)+Math.round(255*amt);
+      R=Math.min(255,R);G=Math.min(255,G);B=Math.min(255,B);
+      return '#'+((1<<24)+(R<<16)+(G<<8)+B).toString(16).slice(1);
+    }catch(e){ return hex; }
+  }
+  renderVals(){ return {}; }
+}
+</script>
+</body>
+</html>
