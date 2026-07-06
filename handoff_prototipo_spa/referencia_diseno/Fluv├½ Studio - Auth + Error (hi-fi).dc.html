@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    --ink:#080B14; --ink2:#0E1322; --ink3:#151C2E; --ink4:#1B2338;
+    --accent:#2C5CFF; --accent2:#4D7BFF;
+    --cyan:#2BD9E4; --magenta:#FF3D8B; --yellow:#FFC93D;
+    --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.15);
+    --txt:#EDF1FB; --mut:#8A93AD;
+    background:var(--ink); color:var(--txt);
+    font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'Space Mono',monospace}
+  .lbl{font:700 10.5px 'Space Mono';letter-spacing:1px;text-transform:uppercase;color:var(--mut)}
+  .fld{border:1px solid var(--line2);border-radius:11px;padding:12px 13px;color:var(--mut);font:500 13px 'Inter';background:var(--ink3)}
+  .tab{font:600 13px 'Space Grotesk';padding:9px 15px;border-radius:20px;cursor:pointer;user-select:none;border:1px solid var(--line2);color:var(--mut)}
+  .tab.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .soc{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;font:600 13px 'Space Grotesk';color:var(--txt);border:1px solid var(--line2);border-radius:12px;padding:11px;cursor:pointer}
+  .cta{display:flex;align-items:center;justify-content:center;gap:8px;font:600 14px 'Space Grotesk';color:#fff;background:var(--accent);padding:13px;border-radius:24px;cursor:pointer;box-shadow:0 12px 30px -8px var(--accent)}
+  .btn2{font:600 13px 'Space Grotesk';color:var(--txt);border:1px solid var(--line2);border-radius:22px;padding:11px 18px;cursor:pointer}
+</style>
+</helmet>
+
+<div style="min-height:100vh">
+
+  <!-- ============ A · AUTH ============ -->
+  <section style="padding:36px 32px 24px;max-width:1000px;margin:0 auto">
+    <div class="lbl" style="color:var(--accent2);margin-bottom:14px">Pantalla A — Autenticación</div>
+    <div style="border:1px solid var(--line2);border-radius:22px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr">
+      <!-- brand side -->
+      <div style="position:relative;padding:38px;background:radial-gradient(circle at 30% 20%,var(--ink4),var(--ink3) 70%);border-right:1px solid var(--line);overflow:hidden">
+        <div style="position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:34px 34px;opacity:.5;pointer-events:none"></div>
+        <div style="position:absolute;width:260px;height:260px;right:-60px;top:-40px;background:radial-gradient(circle,var(--accent),transparent 70%);opacity:.4;filter:blur(10px);pointer-events:none"></div>
+        <div style="position:relative">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:26px">
+            <span style="position:relative;width:26px;height:26px;display:inline-flex">
+              <span style="position:absolute;width:14px;height:14px;border-radius:50%;background:var(--cyan);mix-blend-mode:screen;left:0;top:6px"></span>
+              <span style="position:absolute;width:14px;height:14px;border-radius:50%;background:var(--magenta);mix-blend-mode:screen;right:0;top:6px"></span>
+              <span style="position:absolute;width:14px;height:14px;border-radius:50%;background:var(--yellow);mix-blend-mode:screen;left:6px;top:0"></span>
+            </span>
+            <span style="font:600 20px 'Space Grotesk'">Fluvë studio</span>
+          </div>
+          <h2 style="font:600 26px/1.15 'Space Grotesk';letter-spacing:-.8px;margin:0 0 18px">Tu cuenta, tus diseños, tus pedidos.</h2>
+          <div style="display:flex;flex-direction:column;gap:11px;font:500 13px 'Inter';color:#C4CBDE">
+            <span>✓ Seguí tus pedidos en tiempo real</span>
+            <span>✓ Guardá favoritos y direcciones</span>
+            <span>✓ Repetí compras en un clic</span>
+            <span>✓ Publicá y vendé tu arte</span>
+          </div>
+          <div style="margin-top:24px;border-radius:14px;overflow:hidden;border:1px solid var(--line2);height:120px"><image-slot id="auth-img" shape="rounded" radius="0" style="width:100%;height:100%" placeholder="Imagen de marca / unboxing"></image-slot></div>
+        </div>
+      </div>
+      <!-- form side -->
+      <div style="padding:38px">
+        <div style="display:flex;gap:8px;margin-bottom:22px">
+          <span class="tab {{ loginCls }}" onClick="{{ toLogin }}">Iniciar sesión</span>
+          <span class="tab {{ regCls }}" onClick="{{ toReg }}">Crear cuenta</span>
+          <span class="tab {{ recCls }}" onClick="{{ toRec }}">Recuperar</span>
+        </div>
+
+        <!-- login -->
+        <div style="display:{{ loginShow }};flex-direction:column;gap:12px">
+          <div><div class="lbl" style="margin-bottom:6px">Email</div><div class="fld">tu@email.com</div></div>
+          <div><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span class="lbl">Contraseña</span><span class="mono" style="font-size:10px;color:var(--accent2);cursor:pointer" onClick="{{ toRec }}">¿Olvidaste?</span></div><div class="fld">••••••••</div></div>
+          <span class="cta" style="margin-top:4px">Entrar →</span>
+          <div style="display:flex;align-items:center;gap:10px;margin:6px 0"><span style="flex:1;height:1px;background:var(--line2)"></span><span class="mono" style="font-size:10px;color:var(--mut)">o continuá con</span><span style="flex:1;height:1px;background:var(--line2)"></span></div>
+          <div style="display:flex;gap:9px"><span class="soc">Google</span><span class="soc">Apple</span></div>
+        </div>
+
+        <!-- register -->
+        <div style="display:{{ regShow }};flex-direction:column;gap:12px">
+          <div style="display:flex;gap:10px"><div style="flex:1"><div class="lbl" style="margin-bottom:6px">Nombre</div><div class="fld">Nombre</div></div><div style="flex:1"><div class="lbl" style="margin-bottom:6px">Apellido</div><div class="fld">Apellido</div></div></div>
+          <div><div class="lbl" style="margin-bottom:6px">Email</div><div class="fld">tu@email.com</div></div>
+          <div><div class="lbl" style="margin-bottom:6px">Contraseña</div><div class="fld">Mínimo 8 caracteres</div></div>
+          <label class="mono" style="font-size:10.5px;color:var(--mut);display:flex;align-items:center;gap:7px"><span style="width:14px;height:14px;border-radius:4px;border:1.5px solid var(--line2)"></span>Acepto los Términos y la Política de privacidad</label>
+          <span class="cta" style="margin-top:2px">Crear cuenta →</span>
+          <p class="mono" style="font-size:10px;color:var(--mut);margin:0;text-align:center">Te enviaremos un email de verificación</p>
+        </div>
+
+        <!-- recover -->
+        <div style="display:{{ recShow }};flex-direction:column;gap:12px">
+          <p style="font:400 13px/1.5 'Inter';color:var(--mut);margin:0">Ingresá tu email y te enviamos un enlace para restablecer la contraseña.</p>
+          <div><div class="lbl" style="margin-bottom:6px">Email</div><div class="fld">tu@email.com</div></div>
+          <span class="cta" style="margin-top:2px">Enviar enlace</span>
+          <span class="mono" style="font-size:11px;color:var(--accent2);text-align:center;cursor:pointer" onClick="{{ toLogin }}">← Volver a iniciar sesión</span>
+        </div>
+
+        <p class="mono" style="font-size:9.5px;color:var(--mut);margin:20px 0 0;line-height:1.6">✎ Dev — Un componente, 3 modos. Tras entrar vuelve a la acción de origen (?return=). Registro con verificación email; recuperar con token. Validación F4, i18n F5. Fusiona carrito invitado al iniciar sesión (F6).</p>
+      </div>
+    </div>
+  </section>
+
+  <div style="max-width:1000px;margin:36px auto;padding:0 32px"><div style="height:1px;background:var(--line)"></div></div>
+
+  <!-- ============ B · ERROR / 404 ============ -->
+  <section style="padding:0 32px 60px;max-width:1000px;margin:0 auto">
+    <div class="lbl" style="color:var(--accent2);margin-bottom:14px">Pantalla B — Error / 404 / sin conexión</div>
+    <div style="border:1px solid var(--line2);border-radius:22px;overflow:hidden;position:relative;background:radial-gradient(circle at 50% 0%,var(--ink3),var(--ink) 75%)">
+      <div style="position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:40px 40px;opacity:.4;mask-image:radial-gradient(circle at 50% 30%,#000,transparent 70%);pointer-events:none"></div>
+      <div style="position:relative;text-align:center;padding:52px 24px 40px">
+        <div style="font:700 72px 'Space Grotesk';letter-spacing:-3px;line-height:1;background:linear-gradient(100deg,var(--accent2),var(--cyan));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">404</div>
+        <h1 style="font:600 28px 'Space Grotesk';letter-spacing:-.8px;margin:12px 0 6px">Esta página se fue a la imprenta</h1>
+        <p style="font:400 14px 'Inter';color:var(--mut);max-width:360px;margin:0 auto 22px">No encontramos lo que buscás. Puede que el enlace haya cambiado o el diseño ya no esté disponible.</p>
+        <div style="display:flex;gap:10px;justify-content:center;margin-bottom:20px"><span class="cta" style="padding:12px 22px">Ir al inicio</span><span class="btn2">Explorar galería</span></div>
+        <div style="max-width:360px;margin:0 auto"><div class="fld" style="display:flex;align-items:center;gap:9px"><span>⌕</span><span class="mono" style="font-size:12px">Buscar un diseño o producto…</span></div></div>
+      </div>
+      <div style="position:relative;display:grid;grid-template-columns:1fr 1fr;gap:12px;border-top:1px solid var(--line);padding:20px 24px">
+        <div style="border:1px solid var(--line);border-radius:14px;padding:16px;background:var(--ink2)"><div style="font:600 13px 'Space Grotesk';margin-bottom:5px">⚠ Error del servidor (500)</div><p class="mono" style="font-size:10.5px;color:var(--mut);margin:0 0 10px">"Algo salió mal de nuestro lado."</p><span class="btn2" style="padding:8px 14px;font-size:12px">Reintentar</span></div>
+        <div style="border:1px solid var(--line);border-radius:14px;padding:16px;background:var(--ink2)"><div style="font:600 13px 'Space Grotesk';margin-bottom:5px">📡 Sin conexión</div><p class="mono" style="font-size:10.5px;color:var(--mut);margin:0 0 10px">"Revisá tu conexión e intentá de nuevo."</p><span class="btn2" style="padding:8px 14px;font-size:12px">Reintentar</span></div>
+      </div>
+    </div>
+    <p class="mono" style="font-size:10px;color:var(--mut);margin:14px 0 0">✎ Dev — Componente &lt;ErrorState code title text actions/&gt; reutilizable para 404/500/offline. Mantiene nav/footer y siempre reconduce (inicio, galería, buscar, soporte). Nunca un callejón sin salida (F3).</p>
+  </section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1000,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  state={ mode:'login' };
+  set(m){ return ()=>this.setState({mode:m}); }
+  renderVals(){
+    const m=this.state.mode;
+    return {
+      loginCls:m==='login'?'on':'', regCls:m==='reg'?'on':'', recCls:m==='rec'?'on':'',
+      loginShow:m==='login'?'flex':'none', regShow:m==='reg'?'flex':'none', recShow:m==='rec'?'flex':'none',
+      toLogin:this.set('login'), toReg:this.set('reg'), toRec:this.set('rec')
+    };
+  }
+}
+</script>
+</body>
+</html>

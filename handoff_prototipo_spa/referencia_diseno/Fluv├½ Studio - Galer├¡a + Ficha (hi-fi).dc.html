@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    --ink:#080B14; --ink2:#0E1322; --ink3:#151C2E; --ink4:#1B2338;
+    --accent:#2C5CFF; --accent2:#4D7BFF;
+    --cyan:#2BD9E4; --magenta:#FF3D8B; --yellow:#FFC93D;
+    --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.15);
+    --txt:#EDF1FB; --mut:#8A93AD;
+    background:var(--ink); color:var(--txt);
+    font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'Space Mono',monospace}
+  .lbl{font:700 10.5px 'Space Mono';letter-spacing:1px;text-transform:uppercase;color:var(--mut)}
+  .chip{font:600 12px 'Space Grotesk';padding:7px 13px;border-radius:20px;border:1px solid var(--line2);color:var(--mut);cursor:pointer;transition:all .15s;user-select:none}
+  .chip:hover{border-color:var(--accent2);color:var(--txt)}
+  .chip.on{background:var(--txt);color:var(--ink);border-color:var(--txt)}
+  .facet{font:500 12.5px 'Inter';color:var(--mut);cursor:pointer;padding:5px 0;display:flex;align-items:center;gap:8px}
+  .facet:hover{color:var(--txt)}
+  .facet .bx{width:15px;height:15px;border-radius:4px;border:1.5px solid var(--line2);flex:none;display:flex;align-items:center;justify-content:center;font-size:10px}
+  .facet.on{color:var(--txt)} .facet.on .bx{background:var(--accent);border-color:var(--accent);color:#fff}
+  .card{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--ink2);transition:border-color .15s;cursor:pointer;position:relative}
+  .card:hover{border-color:var(--line2)}
+  .card:hover .ov{opacity:1}
+  .ov{position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(8,11,20,.9));opacity:0;transition:opacity .18s;display:flex;align-items:flex-end;padding:14px;pointer-events:none}
+  .badge{position:absolute;top:10px;left:10px;font:700 9px 'Space Mono';letter-spacing:.5px;text-transform:uppercase;background:rgba(8,11,20,.72);backdrop-filter:blur(8px);border:1px solid var(--line2);border-radius:14px;padding:4px 8px;pointer-events:none}
+</style>
+</helmet>
+
+<div style="min-height:100vh">
+
+  <!-- NAV -->
+  <nav style="position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:20px;padding:14px 32px;backdrop-filter:blur(18px);background:rgba(8,11,20,.72);border-bottom:1px solid var(--line)">
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="position:relative;width:24px;height:24px;display:inline-flex">
+        <span style="position:absolute;width:13px;height:13px;border-radius:50%;background:var(--cyan);mix-blend-mode:screen;left:0;top:5px"></span>
+        <span style="position:absolute;width:13px;height:13px;border-radius:50%;background:var(--magenta);mix-blend-mode:screen;right:0;top:5px"></span>
+        <span style="position:absolute;width:13px;height:13px;border-radius:50%;background:var(--yellow);mix-blend-mode:screen;left:5px;top:0"></span>
+      </span>
+      <span style="font:600 19px 'Space Grotesk';letter-spacing:-.3px">Fluvë<span style="color:var(--mut);font-weight:400"> studio</span></span>
+    </div>
+    <div style="display:flex;gap:20px;font:500 13px 'Inter';color:var(--mut);margin-left:8px"><span>Productos</span><span style="color:var(--txt)">Galería</span><span>Cómo funciona</span><span>Empresas</span></div>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:14px">
+      <span class="mono" style="font-size:11px;color:var(--mut);border:1px solid var(--line2);border-radius:20px;padding:5px 10px">ES · <span style="color:var(--txt)">EN</span></span>
+      <span style="font-size:15px;color:var(--mut)">♡</span>
+      <span style="display:inline-flex;align-items:center;gap:7px;font:600 13px 'Space Grotesk';color:var(--ink);background:var(--txt);padding:8px 14px;border-radius:20px">🛒 2</span>
+    </div>
+  </nav>
+
+  <!-- ============ SCREEN A · GALLERY ============ -->
+  <section style="max-width:1300px;margin:0 auto;padding:30px 32px 20px">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:8px">
+      <div>
+        <div class="lbl" style="color:var(--accent2);margin-bottom:8px">Pantalla A — Galería</div>
+        <h1 style="font:600 38px/1.02 'Space Grotesk';letter-spacing:-1.2px;margin:0">Galería de diseños</h1>
+      </div>
+      <div style="position:relative;width:280px">
+        <div style="display:flex;align-items:center;gap:9px;border:1px solid var(--line2);border-radius:24px;padding:9px 15px;color:var(--mut)"><span>⌕</span><span class="mono" style="font-size:12px">Buscar diseño, artista…</span></div>
+      </div>
+    </div>
+    <p style="font:400 14px 'Inter';color:var(--mut);margin:0 0 22px;max-width:520px">Explorá por estilo o público y previsualizá cada diseño sobre cualquier producto.</p>
+
+    <div style="display:grid;grid-template-columns:210px 1fr;gap:26px;align-items:start">
+      <!-- FILTERS -->
+      <aside style="position:sticky;top:88px;display:flex;flex-direction:column;gap:22px;border:1px solid var(--line);border-radius:16px;padding:18px;background:var(--ink2)">
+        <div>
+          <div class="lbl" style="margin-bottom:12px">Para</div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <span class="facet on"><span class="bx">✓</span>Hombre</span>
+            <span class="facet"><span class="bx"></span>Mujer</span>
+            <span class="facet"><span class="bx"></span>Niños</span>
+            <span class="facet"><span class="bx"></span>Hogar</span>
+            <span class="facet"><span class="bx"></span>Accesorios</span>
+          </div>
+        </div>
+        <div style="height:1px;background:var(--line)"></div>
+        <div>
+          <div class="lbl" style="margin-bottom:12px">Estilo</div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <span class="facet on"><span class="bx">✓</span>Ilustración</span>
+            <span class="facet"><span class="bx"></span>Tipografía</span>
+            <span class="facet"><span class="bx"></span>Abstracto</span>
+            <span class="facet"><span class="bx"></span>Streetwear</span>
+            <span class="facet"><span class="bx"></span>Retro</span>
+            <span class="facet"><span class="bx"></span>Naturaleza</span>
+          </div>
+        </div>
+        <div style="height:1px;background:var(--line)"></div>
+        <div>
+          <div class="lbl" style="margin-bottom:12px">Producto</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px">
+            <span class="chip on" style="font-size:11px;padding:5px 10px">Remera</span>
+            <span class="chip" style="font-size:11px;padding:5px 10px">Hoodie</span>
+            <span class="chip" style="font-size:11px;padding:5px 10px">Taza</span>
+            <span class="chip" style="font-size:11px;padding:5px 10px">Tote</span>
+            <span class="chip" style="font-size:11px;padding:5px 10px">Funda</span>
+          </div>
+        </div>
+        <div style="height:1px;background:var(--line)"></div>
+        <div>
+          <div class="lbl" style="margin-bottom:12px">Color</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <span style="width:22px;height:22px;border-radius:50%;background:#0A0E17;border:1px solid var(--line2);outline:2px solid var(--accent);outline-offset:1px"></span>
+            <span style="width:22px;height:22px;border-radius:50%;background:#fff;border:1px solid var(--line2)"></span>
+            <span style="width:22px;height:22px;border-radius:50%;background:var(--magenta);border:1px solid var(--line2)"></span>
+            <span style="width:22px;height:22px;border-radius:50%;background:var(--cyan);border:1px solid var(--line2)"></span>
+            <span style="width:22px;height:22px;border-radius:50%;background:var(--yellow);border:1px solid var(--line2)"></span>
+          </div>
+        </div>
+        <p class="mono" style="font-size:9.5px;color:var(--mut);margin:0;line-height:1.5">✎ Dev — Facetas combinables (público × estilo × producto × color), filtros en la URL (F2/F7). "Para" mapea a categoría de audiencia.</p>
+      </aside>
+
+      <!-- GRID -->
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <span class="mono" style="font-size:12px;color:var(--mut)">128 diseños · <span style="color:var(--txt)">Hombre · Ilustración</span></span>
+          <span class="chip" style="border-color:var(--line2)">Ordenar: Populares ▾</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+          <div class="card"><span class="badge" style="color:var(--cyan)">★ Top ventas</span><image-slot id="ga-1" shape="rounded" radius="0" style="width:100%;aspect-ratio:4/5;display:block" placeholder="Diseño"></image-slot><div class="ov"><span class="mono" style="font-size:10px;color:var(--txt)">Ver en 5 productos →</span></div><div style="padding:12px 14px;display:flex;justify-content:space-between;align-items:center"><div><div style="font:600 14px 'Space Grotesk'">Solar Bloom</div><div class="mono" style="font-size:10.5px;color:var(--mut)">@kookylove</div></div><span class="mono" style="font-size:11px;color:var(--txt)">$24,90</span></div></div>
+          <div class="card"><image-slot id="ga-2" shape="rounded" radius="0" style="width:100%;aspect-ratio:4/5;display:block" placeholder="Diseño"></image-slot><div class="ov"><span class="mono" style="font-size:10px;color:var(--txt)">Ver en 5 productos →</span></div><div style="padding:12px 14px;display:flex;justify-content:space-between;align-items:center"><div><div style="font:600 14px 'Space Grotesk'">Night Shift</div><div class="mono" style="font-size:10.5px;color:var(--mut)">@studiofolk</div></div><span class="mono" style="font-size:11px;color:var(--txt)">$24,90</span></div></div>
+          <div class="card"><span class="badge" style="color:var(--magenta)">Nuevo</span><image-slot id="ga-3" shape="rounded" radius="0" style="width:100%;aspect-ratio:4/5;display:block" placeholder="Diseño"></image-slot><div class="ov"><span class="mono" style="font-size:10px;color:var(--txt)">Ver en 5 productos →</span></div><div style="padding:12px 14px;display:flex;justify-content:space-between;align-items:center"><div><div style="font:600 14px 'Space Grotesk'">Grid Theory</div><div class="mono" style="font-size:10.5px;color:var(--mut)">@lettering.uy</div></div><span class="mono" style="font-size:11px;color:var(--txt)">$24,90</span></div></div>
+          <div class="card"><image-slot id="ga-4" shape="rounded" radius="0" style="width:100%;aspect-ratio:4/5;display:block" placeholder="Diseño"></image-slot><div class="ov"><span class="mono" style="font-size:10px;color:var(--txt)">Ver en 5 productos →</span></div><div style="padding:12px 14px;display:flex;justify-content:space-between;align-items:center"><div><div style="font:600 14px 'Space Grotesk'">Rewind 88</div><div class="mono" style="font-size:10.5px;color:var(--mut)">@kookylove</div></div><span class="mono" style="font-size:11px;color:var(--txt)">$24,90</span></div></div>
+          <div class="card"><image-slot id="ga-5" shape="rounded" radius="0" style="width:100%;aspect-ratio:4/5;display:block" placeholder="Diseño"></image-slot><div class="ov"><span class="mono" style="font-size:10px;color:var(--txt)">Ver en 5 productos →</span></div><div style="padding:12px 14px;display:flex;justify-content:space-between;align-items:center"><div><div style="font:600 14px 'Space Grotesk'">Static Noise</div><div class="mono" style="font-size:10.5px;color:var(--mut)">@studiofolk</div></div><span class="mono" style="font-size:11px;color:var(--txt)">$24,90</span></div></div>
+          <div class="card"><image-slot id="ga-6" shape="rounded" radius="0" style="width:100%;aspect-ratio:4/5;display:block" placeholder="Diseño"></image-slot><div class="ov"><span class="mono" style="font-size:10px;color:var(--txt)">Ver en 5 productos →</span></div><div style="padding:12px 14px;display:flex;justify-content:space-between;align-items:center"><div><div style="font:600 14px 'Space Grotesk'">Wildcat</div><div class="mono" style="font-size:10.5px;color:var(--mut)">@lettering.uy</div></div><span class="mono" style="font-size:11px;color:var(--txt)">$24,90</span></div></div>
+        </div>
+        <div style="display:flex;justify-content:center;gap:7px;margin-top:24px">
+          <span class="chip">‹</span><span class="chip on">1</span><span class="chip">2</span><span class="chip">3</span><span class="chip">›</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- divider -->
+  <div style="max-width:1300px;margin:40px auto;padding:0 32px"><div style="height:1px;background:var(--line)"></div></div>
+
+  <!-- ============ SCREEN B · DESIGN DETAIL ============ -->
+  <section style="max-width:1300px;margin:0 auto;padding:0 32px 70px">
+    <div class="lbl" style="color:var(--accent2);margin-bottom:8px">Pantalla B — Ficha de diseño</div>
+    <div class="mono" style="font-size:11.5px;color:var(--mut);margin-bottom:22px">Galería › Ilustración › <span style="color:var(--txt)">Solar Bloom</span></div>
+
+    <div style="display:grid;grid-template-columns:1.15fr .85fr;gap:34px;align-items:start">
+      <!-- big preview -->
+      <div style="position:sticky;top:88px">
+        <div style="position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--line2);background:radial-gradient(circle at 50% 35%,var(--ink4),var(--ink) 75%);aspect-ratio:1">
+          <div style="position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:38px 38px;opacity:.4;pointer-events:none"></div>
+          <image-slot id="fi-main" shape="rounded" radius="0" style="position:absolute;inset:0;width:100%;height:100%" placeholder="Diseño aplicado sobre el producto seleccionado"></image-slot>
+          <span class="badge">{{ prodLabel }}</span>
+        </div>
+        <p class="mono" style="font-size:10.5px;color:var(--mut);margin:12px 0 0;line-height:1.6">✎ Dev — Al elegir un producto (abajo) el preview grande cambia al instante. Mockups pre-generados por diseño×producto; sin recarga.</p>
+      </div>
+
+      <!-- info -->
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div>
+          <h1 style="font:600 34px/1.03 'Space Grotesk';letter-spacing:-1px;margin:0 0 8px">Solar Bloom</h1>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="display:flex;align-items:center;gap:8px"><image-slot id="fi-artist" shape="circle" radius="12" style="width:26px;height:26px" placeholder="·"></image-slot><span style="font:500 13px 'Inter';color:var(--mut)">por <span style="color:var(--accent2)">@kookylove</span></span></div>
+            <span style="color:var(--yellow);font-size:12px">★★★★★</span><span class="mono" style="font-size:11px;color:var(--mut)">4.9</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="lbl" style="margin-bottom:12px">Disponible en</div>
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:9px">
+            <div style="cursor:pointer;text-align:center"><div style="border-radius:11px;overflow:hidden;border:1px solid var(--accent);outline:2px solid var(--accent);outline-offset:1px;aspect-ratio:1"><image-slot id="fi-p1" shape="rounded" radius="0" style="width:100%;height:100%" placeholder="Rem."></image-slot></div><div class="mono" style="font-size:9.5px;color:var(--txt);margin-top:5px">Remera</div></div>
+            <div style="cursor:pointer;text-align:center"><div style="border-radius:11px;overflow:hidden;border:1px solid var(--line2);aspect-ratio:1"><image-slot id="fi-p2" shape="rounded" radius="0" style="width:100%;height:100%" placeholder="Hood."></image-slot></div><div class="mono" style="font-size:9.5px;color:var(--mut);margin-top:5px">Hoodie</div></div>
+            <div style="cursor:pointer;text-align:center"><div style="border-radius:11px;overflow:hidden;border:1px solid var(--line2);aspect-ratio:1"><image-slot id="fi-p3" shape="rounded" radius="0" style="width:100%;height:100%" placeholder="Taza"></image-slot></div><div class="mono" style="font-size:9.5px;color:var(--mut);margin-top:5px">Taza</div></div>
+            <div style="cursor:pointer;text-align:center"><div style="border-radius:11px;overflow:hidden;border:1px solid var(--line2);aspect-ratio:1"><image-slot id="fi-p4" shape="rounded" radius="0" style="width:100%;height:100%" placeholder="Tote"></image-slot></div><div class="mono" style="font-size:9.5px;color:var(--mut);margin-top:5px">Tote</div></div>
+            <div style="cursor:pointer;text-align:center"><div style="border-radius:11px;overflow:hidden;border:1px solid var(--line2);aspect-ratio:1"><image-slot id="fi-p5" shape="rounded" radius="0" style="width:100%;height:100%" placeholder="Funda"></image-slot></div><div class="mono" style="font-size:9.5px;color:var(--mut);margin-top:5px">Funda</div></div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:22px;flex-wrap:wrap">
+          <div><div class="lbl" style="margin-bottom:9px">Color</div><div style="display:flex;gap:9px"><span style="width:26px;height:26px;border-radius:50%;background:#0A0E17;outline:2px solid var(--accent);outline-offset:2px"></span><span style="width:26px;height:26px;border-radius:50%;background:#fff;border:1px solid var(--line2)"></span><span style="width:26px;height:26px;border-radius:50%;background:#C9C2B4"></span><span style="width:26px;height:26px;border-radius:50%;background:#3B6FB0"></span></div></div>
+          <div><div class="lbl" style="margin-bottom:9px">Estilo</div><div style="display:flex;gap:6px"><span class="chip on" style="font-size:11px;padding:5px 11px">Ilustración</span><span class="chip" style="font-size:11px;padding:5px 11px">Full color</span></div></div>
+        </div>
+
+        <div style="border-top:1px solid var(--line);padding-top:18px;display:flex;align-items:flex-end;justify-content:space-between">
+          <div><div class="mono" style="font-size:10.5px;color:var(--mut)">Desde · {{ prodLabel }}</div><div style="font:600 30px 'Space Grotesk';letter-spacing:-1px">{{ priceStr }}</div></div>
+          <div style="text-align:right"><div class="mono" style="font-size:10px;color:var(--cyan)">⚡ 24–48h</div></div>
+        </div>
+        <span style="display:inline-flex;align-items:center;justify-content:center;gap:9px;font:600 15px 'Space Grotesk';color:#fff;background:var(--accent);padding:15px;border-radius:26px;cursor:pointer;box-shadow:0 12px 30px -8px var(--accent)">Personalizar este producto →</span>
+        <p class="mono" style="font-size:10px;color:var(--mut);text-align:center;margin:-6px 0 0">✎ Dev — CTA abre el Personalizador con diseño+producto precargados. Precio "desde" = base del producto elegido.</p>
+
+        <div style="border:1px solid var(--line);border-radius:14px;padding:16px;background:var(--ink2)">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><image-slot id="fi-artist2" shape="circle" radius="15" style="width:34px;height:34px" placeholder="·"></image-slot><div><div style="font:600 13px 'Space Grotesk'">@kookylove</div><div class="mono" style="font-size:10px;color:var(--mut)">24 diseños · nivel Pro</div></div><span class="chip" style="margin-left:auto;font-size:11px">Ver perfil</span></div>
+          <p style="font:400 12px/1.5 'Inter';color:var(--mut);margin:0">Artista ilustradora. Cada compra le paga regalías automáticamente.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- related -->
+    <div style="margin-top:44px">
+      <h3 style="font:600 20px 'Space Grotesk';margin:0 0 16px">Diseños relacionados</h3>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px">
+        <div class="card"><image-slot id="fi-r1" shape="rounded" radius="0" style="width:100%;aspect-ratio:4/5;display:block" placeholder="·"></image-slot></div>
+        <div class="card"><image-slot id="fi-r2" shape="rounded" radius="0" style="width:100%;aspect-ratio:4/5;display:block" placeholder="·"></image-slot></div>
+        <div class="card"><image-slot id="fi-r3" shape="rounded" radius="0" style="width:100%;aspect-ratio:4/5;display:block" placeholder="·"></image-slot></div>
+        <div class="card"><image-slot id="fi-r4" shape="rounded" radius="0" style="width:100%;aspect-ratio:4/5;display:block" placeholder="·"></image-slot></div>
+        <div class="card"><image-slot id="fi-r5" shape="rounded" radius="0" style="width:100%;aspect-ratio:4/5;display:block" placeholder="·"></image-slot></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1300,&quot;height&quot;:980}}">
+class Component extends DCLogic {
+  state={ prod:'Remera', price:24.90 };
+  renderVals(){
+    return { prodLabel:this.state.prod, priceStr:'$'+this.state.price.toFixed(2).replace('.',',') };
+  }
+}
+</script>
+</body>
+</html>

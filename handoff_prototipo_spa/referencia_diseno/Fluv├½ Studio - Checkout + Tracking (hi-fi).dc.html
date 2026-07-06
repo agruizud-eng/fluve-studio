@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    --ink:#080B14; --ink2:#0E1322; --ink3:#151C2E; --ink4:#1B2338;
+    --accent:#2C5CFF; --accent2:#4D7BFF;
+    --cyan:#2BD9E4; --magenta:#FF3D8B; --yellow:#FFC93D; --green:#3FCB7E;
+    --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.15);
+    --txt:#EDF1FB; --mut:#8A93AD;
+    background:var(--ink); color:var(--txt);
+    font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'Space Mono',monospace}
+  .lbl{font:700 10.5px 'Space Mono';letter-spacing:1px;text-transform:uppercase;color:var(--mut)}
+  .fld{border:1px solid var(--line2);border-radius:11px;padding:11px 13px;color:var(--mut);font:500 13px 'Inter';background:var(--ink2)}
+  .chip{font:600 12px 'Space Grotesk';padding:8px 14px;border-radius:20px;border:1px solid var(--line2);color:var(--mut);cursor:pointer;user-select:none}
+  .chip.on{background:var(--txt);color:var(--ink);border-color:var(--txt)}
+  .sechead{font:600 16px 'Space Grotesk';margin:0 0 14px}
+  .card{border:1px solid var(--line);border-radius:16px;background:var(--ink2)}
+</style>
+</helmet>
+
+<div style="min-height:100vh">
+  <nav style="display:flex;align-items:center;gap:14px;padding:16px 32px;border-bottom:1px solid var(--line)">
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="position:relative;width:24px;height:24px;display:inline-flex">
+        <span style="position:absolute;width:13px;height:13px;border-radius:50%;background:var(--cyan);mix-blend-mode:screen;left:0;top:5px"></span>
+        <span style="position:absolute;width:13px;height:13px;border-radius:50%;background:var(--magenta);mix-blend-mode:screen;right:0;top:5px"></span>
+        <span style="position:absolute;width:13px;height:13px;border-radius:50%;background:var(--yellow);mix-blend-mode:screen;left:5px;top:0"></span>
+      </span>
+      <span style="font:600 19px 'Space Grotesk'">Fluvë<span style="color:var(--mut);font-weight:400"> studio</span></span>
+    </div>
+    <span class="mono" style="margin-left:auto;font-size:11.5px;color:var(--mut)">🔒 Pago seguro · SSL</span>
+  </nav>
+
+  <!-- ============ A · CART ============ -->
+  <section style="max-width:1180px;margin:0 auto;padding:30px 32px 20px">
+    <div class="lbl" style="color:var(--accent2);margin-bottom:8px">Pantalla A — Carrito</div>
+    <h1 style="font:600 34px 'Space Grotesk';letter-spacing:-1px;margin:0 0 22px">Tu carrito</h1>
+    <div style="display:grid;grid-template-columns:1fr 340px;gap:26px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="card" style="padding:14px;display:flex;gap:14px;align-items:center">
+          <div style="width:72px;height:72px;border-radius:11px;overflow:hidden;border:1px solid var(--line2);flex:none"><image-slot id="c-1" shape="rounded" radius="0" style="width:100%;height:100%" placeholder="·"></image-slot></div>
+          <div style="flex:1"><div style="font:600 14px 'Space Grotesk'">Solar Bloom · Remera</div><div class="mono" style="font-size:11px;color:var(--mut);margin-top:3px">Negro · M · Regular · DTF · Frente</div><div class="mono" style="font-size:11px;color:var(--accent2);margin-top:5px;cursor:pointer">Editar · Quitar</div></div>
+          <div style="text-align:right"><div style="font:600 15px 'Space Grotesk'">$24,90</div><div class="mono" style="font-size:10px;color:var(--mut)">x1</div></div>
+        </div>
+        <div class="card" style="padding:14px;display:flex;gap:14px;align-items:center">
+          <div style="width:72px;height:72px;border-radius:11px;overflow:hidden;border:1px solid var(--line2);flex:none"><image-slot id="c-2" shape="rounded" radius="0" style="width:100%;height:100%" placeholder="·"></image-slot></div>
+          <div style="flex:1"><div style="font:600 14px 'Space Grotesk'">Tu diseño · Taza</div><div class="mono" style="font-size:11px;color:var(--mut);margin-top:3px">Blanco · 330ml · Sublimación</div><div class="mono" style="font-size:11px;color:var(--accent2);margin-top:5px;cursor:pointer">Editar · Quitar</div></div>
+          <div style="text-align:right"><div style="font:600 15px 'Space Grotesk'">$23,80</div><div class="mono" style="font-size:10px;color:var(--mut)">x2</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;border:1px dashed var(--line2);border-radius:12px;padding:12px 14px">
+          <span style="font-size:15px">🎟</span><span class="fld" style="flex:1;border-style:dashed">Código de descuento</span><span class="chip">Aplicar</span>
+        </div>
+        <p class="mono" style="font-size:10px;color:var(--mut);margin:2px 0 0">✎ Dev — Cada línea guarda la config completa del personalizador; "Editar" reabre el Personalizador con ese estado (F6). Cupón valida server-side antes del margen (backend A17).</p>
+      </div>
+      <div class="card" style="padding:20px;position:sticky;top:20px">
+        <div class="lbl" style="margin-bottom:14px">Resumen</div>
+        <div style="display:flex;flex-direction:column;gap:9px;font:500 13px 'Inter';color:var(--mut)">
+          <div style="display:flex;justify-content:space-between"><span>Subtotal</span><span style="color:var(--txt)">$48,70</span></div>
+          <div style="display:flex;justify-content:space-between"><span>Envío express 24–48h</span><span style="color:var(--txt)">$4,90</span></div>
+          <div style="display:flex;justify-content:space-between"><span>Impuestos incl.</span><span style="color:var(--txt)">$8,79</span></div>
+        </div>
+        <div style="height:1px;background:var(--line);margin:14px 0"></div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:600 15px 'Space Grotesk'">Total</span><span style="font:600 26px 'Space Grotesk';letter-spacing:-.5px">$53,60</span></div>
+        <span style="display:flex;align-items:center;justify-content:center;gap:8px;font:600 15px 'Space Grotesk';color:#fff;background:var(--accent);padding:14px;border-radius:24px;margin-top:16px;cursor:pointer;box-shadow:0 12px 30px -8px var(--accent)">Ir a pagar →</span>
+        <div class="mono" style="font-size:10px;color:var(--cyan);text-align:center;margin-top:12px">⚡ Entrega estimada 24–48h</div>
+      </div>
+    </div>
+  </section>
+
+  <div style="max-width:1180px;margin:36px auto;padding:0 32px"><div style="height:1px;background:var(--line)"></div></div>
+
+  <!-- ============ B · CHECKOUT ============ -->
+  <section style="max-width:1180px;margin:0 auto;padding:0 32px 20px">
+    <div class="lbl" style="color:var(--accent2);margin-bottom:8px">Pantalla B — Checkout</div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px">
+      <span class="mono" style="font-size:12px;color:var(--accent2)">① Datos</span><span style="color:var(--line2)">———</span>
+      <span class="mono" style="font-size:12px;color:var(--accent2)">② Envío</span><span style="color:var(--line2)">———</span>
+      <span class="mono" style="font-size:12px;color:var(--mut)">③ Pago</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 340px;gap:26px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <div>
+          <h3 class="sechead">Contacto</h3>
+          <div style="display:flex;gap:10px"><span class="fld" style="flex:1">Email</span><span class="fld" style="width:150px">Teléfono</span></div>
+          <label class="mono" style="font-size:10.5px;color:var(--mut);display:flex;align-items:center;gap:7px;margin-top:8px"><span style="width:14px;height:14px;border-radius:4px;border:1.5px solid var(--line2)"></span>Comprar como invitado — crear cuenta al final</label>
+        </div>
+        <div>
+          <h3 class="sechead">Dirección de envío</h3>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span class="fld">Nombre y apellidos</span>
+            <span class="fld">Calle y número</span>
+            <div style="display:flex;gap:10px"><span class="fld" style="flex:1">Ciudad</span><span class="fld" style="width:110px">CP</span><span class="fld" style="width:130px">Departamento</span></div>
+          </div>
+        </div>
+        <div>
+          <h3 class="sechead">Método de envío</h3>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="border:1px solid var(--accent);background:rgba(44,92,255,.12);border-radius:12px;padding:13px 15px;display:flex;justify-content:space-between;align-items:center"><div><div style="font:600 13px 'Space Grotesk'">⚡ Express 24–48h</div><div class="mono" style="font-size:10.5px;color:var(--mut)">Mensajería local</div></div><span style="font:600 14px 'Space Grotesk'">$4,90</span></div>
+            <div style="border:1px solid var(--line2);border-radius:12px;padding:13px 15px;display:flex;justify-content:space-between;align-items:center;color:var(--mut)"><div><div style="font:600 13px 'Space Grotesk'">Estándar 3–5 días</div><div class="mono" style="font-size:10.5px">Correo nacional</div></div><span style="font:600 14px 'Space Grotesk';color:var(--green)">Gratis</span></div>
+          </div>
+        </div>
+        <div>
+          <h3 class="sechead">Pago</h3>
+          <div style="display:flex;gap:8px;margin-bottom:12px"><span class="chip on">💳 Tarjeta</span><span class="chip">PayPal</span><span class="chip">Transferencia</span><span class="chip">MercadoPago</span></div>
+          <div style="display:flex;flex-direction:column;gap:10px"><span class="fld">Número de tarjeta</span><div style="display:flex;gap:10px"><span class="fld" style="flex:1">MM / AA</span><span class="fld" style="width:110px">CVC</span></div></div>
+        </div>
+        <p class="mono" style="font-size:10px;color:var(--mut);margin:0">✎ Dev — Validación en vivo por campo (F4). Pago 100% autónomo vía pasarela tokenizada (PCI); estados carga/éxito/fallo (F2/F3). Comisión de pasarela entra al costeo (backend A23). Al confirmar → crea pedido y dispara orden a producción.</p>
+      </div>
+      <div class="card" style="padding:20px;position:sticky;top:20px">
+        <div class="lbl" style="margin-bottom:14px">Tu pedido</div>
+        <div style="display:flex;gap:10px;margin-bottom:10px"><div style="width:40px;height:40px;border-radius:8px;overflow:hidden;border:1px solid var(--line2);flex:none"><image-slot id="co-1" shape="rounded" radius="0" style="width:100%;height:100%" placeholder="·"></image-slot></div><div style="flex:1"><div style="font:600 12px 'Space Grotesk'">Remera · Solar Bloom</div><div class="mono" style="font-size:10px;color:var(--mut)">Negro M · x1</div></div><span class="mono" style="font-size:11px">$24,90</span></div>
+        <div style="display:flex;gap:10px;margin-bottom:14px"><div style="width:40px;height:40px;border-radius:8px;overflow:hidden;border:1px solid var(--line2);flex:none"><image-slot id="co-2" shape="rounded" radius="0" style="width:100%;height:100%" placeholder="·"></image-slot></div><div style="flex:1"><div style="font:600 12px 'Space Grotesk'">Taza · Tu diseño</div><div class="mono" style="font-size:10px;color:var(--mut)">Blanca · x2</div></div><span class="mono" style="font-size:11px">$23,80</span></div>
+        <div style="height:1px;background:var(--line);margin-bottom:12px"></div>
+        <div style="display:flex;flex-direction:column;gap:7px;font:500 12.5px 'Inter';color:var(--mut)"><div style="display:flex;justify-content:space-between"><span>Subtotal</span><span style="color:var(--txt)">$48,70</span></div><div style="display:flex;justify-content:space-between"><span>Envío</span><span style="color:var(--txt)">$4,90</span></div></div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:12px"><span style="font:600 14px 'Space Grotesk'">Total</span><span style="font:600 24px 'Space Grotesk'">$53,60</span></div>
+        <span style="display:flex;align-items:center;justify-content:center;font:600 15px 'Space Grotesk';color:#fff;background:var(--accent);padding:14px;border-radius:24px;margin-top:16px;cursor:pointer;box-shadow:0 12px 30px -8px var(--accent)">Pagar $53,60</span>
+        <div class="mono" style="font-size:9.5px;color:var(--mut);text-align:center;margin-top:10px">Al pagar aceptás los Términos</div>
+      </div>
+    </div>
+  </section>
+
+  <div style="max-width:1180px;margin:36px auto;padding:0 32px"><div style="height:1px;background:var(--line)"></div></div>
+
+  <!-- ============ C · CONFIRMATION + TRACKING ============ -->
+  <section style="max-width:760px;margin:0 auto;padding:0 32px 70px">
+    <div class="lbl" style="color:var(--accent2);margin-bottom:8px">Pantalla C — Confirmación + seguimiento</div>
+    <div class="card" style="padding:34px;text-align:center;background:radial-gradient(circle at 50% 0%,rgba(63,203,126,.12),var(--ink2) 70%)">
+      <div style="width:56px;height:56px;border-radius:50%;border:2px solid var(--green);color:var(--green);display:flex;align-items:center;justify-content:center;font:24px 'Space Grotesk';margin:0 auto 14px">✓</div>
+      <h1 style="font:600 30px 'Space Grotesk';letter-spacing:-1px;margin:0 0 6px">¡Pedido confirmado!</h1>
+      <p style="font:400 14px 'Inter';color:var(--mut);margin:0 0 14px">Pedido <b style="color:var(--txt)">#FLV-2840</b> · Te enviamos la confirmación por email</p>
+      <span class="mono" style="display:inline-flex;gap:7px;font-size:12px;color:var(--cyan);background:rgba(43,217,228,.1);border:1px solid rgba(43,217,228,.3);border-radius:20px;padding:7px 14px">⚡ Entrega estimada: 24–48h</span>
+    </div>
+
+    <h3 style="font:600 18px 'Space Grotesk';margin:28px 0 16px">Seguimiento del pedido</h3>
+    <div class="card" style="padding:22px 24px">
+      <div style="display:flex;flex-direction:column">
+        <div style="display:flex;gap:14px"><div style="display:flex;flex-direction:column;align-items:center"><span style="width:26px;height:26px;border-radius:50%;background:var(--green);color:var(--ink);display:flex;align-items:center;justify-content:center;font:14px 'Space Grotesk'">✓</span><span style="width:2px;flex:1;background:var(--green);min-height:22px"></span></div><div style="padding-bottom:20px"><div style="font:600 14px 'Space Grotesk'">Pedido recibido y pagado</div><div class="mono" style="font-size:11px;color:var(--mut)">Hoy, 14:20</div></div></div>
+        <div style="display:flex;gap:14px"><div style="display:flex;flex-direction:column;align-items:center"><span style="width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font:11px 'Space Grotesk'">●</span><span style="width:2px;flex:1;background:var(--line2);min-height:22px"></span></div><div style="padding-bottom:20px"><div style="font:600 14px 'Space Grotesk'">En producción</div><div class="mono" style="font-size:11px;color:var(--mut)">Imprenta aliada · en curso</div></div></div>
+        <div style="display:flex;gap:14px;opacity:.5"><div style="display:flex;flex-direction:column;align-items:center"><span style="width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line2);display:flex;align-items:center;justify-content:center;font:11px 'Space Grotesk';color:var(--mut)">○</span><span style="width:2px;flex:1;background:var(--line2);min-height:22px"></span></div><div style="padding-bottom:20px"><div style="font:600 14px 'Space Grotesk'">Control de calidad + packaging</div><div class="mono" style="font-size:11px;color:var(--mut)">Acabados y caja Fluvë</div></div></div>
+        <div style="display:flex;gap:14px;opacity:.5"><div style="display:flex;flex-direction:column;align-items:center"><span style="width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line2);display:flex;align-items:center;justify-content:center;font:11px 'Space Grotesk';color:var(--mut)">○</span><span style="width:2px;flex:1;background:var(--line2);min-height:22px"></span></div><div style="padding-bottom:20px"><div style="font:600 14px 'Space Grotesk'">En camino</div><div class="mono" style="font-size:11px;color:var(--mut)">Mensajería local express</div></div></div>
+        <div style="display:flex;gap:14px;opacity:.5"><div style="display:flex;flex-direction:column;align-items:center"><span style="width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line2);display:flex;align-items:center;justify-content:center;font:11px 'Space Grotesk';color:var(--mut)">○</span></div><div><div style="font:600 14px 'Space Grotesk'">Entregado</div></div></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:18px">
+      <span class="chip" style="flex:1;justify-content:center;text-align:center;padding:12px">Ver detalle del pedido</span>
+      <span class="chip" style="flex:1;justify-content:center;text-align:center;padding:12px">Descargar factura</span>
+      <span class="chip on" style="flex:1;justify-content:center;text-align:center;padding:12px">Ir a Mi cuenta</span>
+    </div>
+    <p class="mono" style="font-size:10px;color:var(--mut);margin:16px 0 0">✎ Dev — El tracking traduce el flujo interno (outsourcing → QC → packaging → envío) a 5 pasos simples. Estados vienen del backend (pedido A3); webhook del courier actualiza "en camino/entregado". Factura PDF on-demand.</p>
+  </section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:980}}"></script>
+</body>
+</html>

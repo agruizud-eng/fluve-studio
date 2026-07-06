@@ -1,0 +1,48 @@
+/* tokens.css — design tokens definitivos (README §5). NO inventar colores fuera de esta paleta. */
+:root {
+  /* Superficies */
+  --ink:   #080B14; /* fondo base */
+  --ink2:  #0E1322; /* superficie / cards */
+  --ink3:  #151C2E; /* superficie elevada / inputs */
+  --ink4:  #1B2338; /* superficie más clara / gradientes */
+
+  /* Acento marca */
+  --accent:  #2C5CFF; /* azul MultiPrint — CTAs, foco, selección */
+  --accent2: #4D7BFF; /* azul claro — links, acentos de texto */
+
+  /* CMYK */
+  --cyan:    #2BD9E4;
+  --magenta: #FF3D8B;
+  --yellow:  #FFC93D;
+  --green:   #3FCB7E; /* éxito, estado "entregado" */
+
+  /* Bordes */
+  --line:  rgba(255,255,255,.09);
+  --line2: rgba(255,255,255,.15);
+
+  /* Texto */
+  --txt: #EDF1FB;
+  --mut: #8A93AD;
+
+  /* Tipografía */
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body:    'Inter', sans-serif;
+  --font-mono:    'Space Mono', monospace;
+
+  /* Radios */
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 22px;
+  --r-pill: 24px;
+
+  /* Sombra CTA */
+  --shadow-cta: 0 12px 30px -8px var(--accent);
+
+  /* Layout */
+  --page-max: 1240px;
+  --page-pad: 32px;
+
+  /* Glass (nav/badges) */
+  --glass-bg: rgba(8,11,20,.82);
+  --glass-blur: 18px;
+}
