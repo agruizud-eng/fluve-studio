@@ -1,0 +1,146 @@
+
+<style>
+* { box-sizing: border-box; }
+.root { padding: 4px 0 10px; font-family: var(--font-sans); }
+.g3 { display: grid; grid-template-columns: 1fr 58px 1fr; gap: 0; }
+
+.col-head {
+  text-align: center; font-size: 11px; font-weight: 500;
+  padding: 5px 8px; border-radius: 6px; margin-bottom: 8px;
+}
+.ha { background: var(--bg-accent); color: var(--text-accent); border: 0.5px solid var(--border-accent); }
+.hb { background: var(--bg-success); color: var(--text-success); border: 0.5px solid var(--border-success); }
+
+.lyr { border-radius: 8px; padding: 9px 11px; margin-bottom: 6px; border: 0.5px solid; }
+.la { background: var(--bg-accent); border-color: var(--border-accent); }
+.lb { background: var(--bg-success); border-color: var(--border-success); }
+.ln { font-size: 12px; font-weight: 500; color: var(--text-primary); margin-bottom: 3px; }
+.li { font-size: 10px; color: var(--text-secondary); line-height: 1.6; }
+
+.badge {
+  display: inline-block; font-size: 9px; font-weight: 500;
+  padding: 1px 6px; border-radius: 10px; margin-top: 4px; margin-right: 3px;
+  background: var(--bg-warning); color: var(--text-warning); border: 0.5px solid var(--border-warning);
+}
+
+.ac { display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 6px; gap: 2px; }
+.a-ico { font-size: 15px; color: var(--text-muted); }
+.a-lbl { font-size: 9px; color: var(--text-muted); text-align: center; line-height: 1.3; }
+
+.stack-row { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 5px; }
+.stk {
+  font-size: 9px; font-weight: 500; padding: 1px 6px; border-radius: 4px;
+  background: var(--surface-2); color: var(--text-secondary); border: 0.5px solid var(--border);
+}
+
+.bridge {
+  margin-top: 10px; border-radius: 8px; padding: 11px 13px;
+  background: var(--bg-warning); border: 0.5px solid var(--border-warning);
+}
+.br-t { font-size: 11px; font-weight: 500; color: var(--text-warning); margin-bottom: 7px; }
+.br-pills { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 7px; }
+.pill {
+  font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 12px;
+  background: var(--surface-2); color: var(--text-primary); border: 0.5px solid var(--border-warning);
+}
+.br-note { font-size: 10px; color: var(--text-warning); opacity: 0.9; line-height: 1.5; }
+
+.payments-row {
+  margin-top: 8px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+}
+.pay-box { border-radius: 8px; padding: 8px 11px; border: 0.5px solid var(--border); background: var(--surface-1); }
+.pay-t { font-size: 11px; font-weight: 500; color: var(--text-primary); margin-bottom: 3px; }
+.pay-d { font-size: 10px; color: var(--text-secondary); line-height: 1.5; }
+</style>
+
+<div class="root">
+  <div class="g3">
+    <div class="col-head ha">Arquitectura A — SPA Prototipo (hoy → testing)</div>
+    <div></div>
+    <div class="col-head hb">Arquitectura B — SaaS Producción (migración con IA)</div>
+
+    <div class="lyr la">
+      <div class="ln">Módulo Core</div>
+      <div class="li">router.js · session.js · shell.js · i18n.js · util/*</div>
+      <span class="badge">✦ hooks.js — nueva adición</span>
+      <span class="badge">✦ config.js — nueva adición</span>
+    </div>
+    <div class="ac">
+      <span class="a-ico">→</span>
+      <span class="a-lbl">adaptar lógica</span>
+    </div>
+    <div class="lyr lb">
+      <div class="ln">Next.js App Core</div>
+      <div class="li">App Router · middleware de auth · next-intl · Zustand</div>
+      <div class="stack-row"><span class="stk">Next.js 14</span><span class="stk">TypeScript</span><span class="stk">Vercel</span></div>
+    </div>
+
+    <div class="lyr la">
+      <div class="ln">Módulo Data (cliente)</div>
+      <div class="li">db.js · dao.js · seed.js · pricing.js</div>
+    </div>
+    <div class="ac">
+      <span class="a-ico">→</span>
+      <span class="a-lbl">migrar casi 1:1</span>
+    </div>
+    <div class="lyr lb">
+      <div class="ln">Supabase · Backend completo</div>
+      <div class="li">PostgreSQL · Auth · Storage · Edge Functions · pricing.ts</div>
+      <div class="stack-row"><span class="stk">Supabase</span><span class="stk">RLS policies</span><span class="stk">SQL migrations</span></div>
+    </div>
+
+    <div class="lyr la">
+      <div class="ln">Módulo Components</div>
+      <div class="li">button · card · productCard · dataTable · cartLine · stepper…</div>
+    </div>
+    <div class="ac">
+      <span class="a-ico">→</span>
+      <span class="a-lbl">reescribir en React</span>
+    </div>
+    <div class="lyr lb">
+      <div class="ln">React Components</div>
+      <div class="li">shadcn/ui base · feature components · custom hooks</div>
+      <div class="stack-row"><span class="stk">React 18</span><span class="stk">shadcn/ui</span><span class="stk">Tailwind CSS</span></div>
+    </div>
+
+    <div class="lyr la">
+      <div class="ln">Views — cliente y admin</div>
+      <div class="li">home · galería · personalizador · carrito · checkout · pedido · admin/* (21 vistas)</div>
+    </div>
+    <div class="ac">
+      <span class="a-ico">→</span>
+      <span class="a-lbl">migrar vista a vista</span>
+    </div>
+    <div class="lyr lb">
+      <div class="ln">Next.js Pages (App Router)</div>
+      <div class="li">app/(client)/* · app/admin/* · app/cuenta/* · app/(auth)/* · app/artist/*</div>
+      <div class="stack-row"><span class="stk">RSC</span><span class="stk">Server Actions</span><span class="stk">ISR / SSG</span></div>
+    </div>
+  </div>
+
+  <div class="bridge">
+    <div class="br-t">El activo que viaja intacto entre ambas arquitecturas — el modelo de datos</div>
+    <div class="br-pills">
+      <span class="pill">PRODUCTO</span>
+      <span class="pill">DISEÑO</span>
+      <span class="pill">PEDIDO</span>
+      <span class="pill">USUARIO</span>
+      <span class="pill">ARTISTA</span>
+      <span class="pill">PROVEEDOR</span>
+      <span class="pill">COMPRA</span>
+      <span class="pill">pricing.js → pricing.ts</span>
+    </div>
+    <div class="br-note">Cada object store de IndexedDB en A → tabla PostgreSQL en Supabase en B. El esquema de dao.js define exactamente la forma de cada tabla. El motor de costeo es lógica pura: se copia sin cambios.</div>
+  </div>
+
+  <div class="payments-row">
+    <div class="pay-box">
+      <div class="pay-t">Pagos (solo en Arquitectura B)</div>
+      <div class="pay-d">MercadoPago (Uruguay / LatAm) · Stripe (internacional) — ambos tienen SDK oficial para Next.js</div>
+    </div>
+    <div class="pay-box">
+      <div class="pay-t">AI Dev Tools compatibles con stack B</div>
+      <div class="pay-d">Claude · Gemini · Cursor · v0.dev · Lovable — Next.js + Supabase es el stack mejor representado en todos los LLMs</div>
+    </div>
+  </div>
+</div>
