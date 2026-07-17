@@ -1,0 +1,560 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.w{padding:1.5rem 0;font-family:var(--font-sans)}
+.hero{border-left:3px solid var(--fill-accent);padding:0 0 0 1.25rem;margin-bottom:1.5rem}
+.hero h1{font-size:20px;font-weight:500;color:var(--text-primary)}
+.hero p{font-size:13px;color:var(--text-secondary);margin-top:5px;line-height:1.6}
+.tabs{display:flex;gap:0;border-bottom:0.5px solid var(--border);margin-bottom:1.5rem;overflow-x:auto}
+.tb{padding:9px 14px;font-size:13px;font-weight:500;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--text-secondary);cursor:pointer;white-space:nowrap;margin-bottom:-1px}
+.tb:hover{color:var(--text-primary)}
+.tb.on{color:var(--text-accent);border-bottom-color:var(--fill-accent)}
+.tp{display:none}.tp.on{display:block}
+.lbl{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin:1.25rem 0 .6rem}
+.card{background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin-bottom:.75rem}
+.div{border:none;border-top:0.5px solid var(--border);margin:1rem 0}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem}
+
+/* STATE CARDS */
+.state-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.25rem}
+.state-card{border-radius:12px;padding:1rem 1.1rem;border:0.5px solid var(--border)}
+.s-guest{border-color:var(--border);background:var(--surface-1)}
+.s-cli{border-color:var(--border-accent);background:var(--bg-accent)}
+.s-art{border-color:var(--border-pro);background:var(--bg-pro)}
+.s-adm{border-color:var(--border-danger);background:var(--bg-danger)}
+.state-name{font-size:13px;font-weight:500;margin-bottom:6px}
+.s-guest .state-name{color:var(--text-secondary)}
+.s-cli .state-name{color:var(--text-accent)}
+.s-art .state-name{color:var(--text-pro)}
+.s-adm .state-name{color:var(--text-danger)}
+.state-header{background:var(--surface-2);border:0.5px solid var(--border);border-radius:6px;padding:.5rem .6rem;margin-bottom:.6rem;font-family:var(--font-mono);font-size:10px;line-height:1.9;color:var(--text-secondary)}
+.h-hi{color:var(--text-success);font-weight:500}
+.h-no{color:var(--text-muted);text-decoration:line-through}
+.state-list{font-size:11px;line-height:1.9;color:var(--text-secondary)}
+.ok{color:var(--text-success)}
+.no{color:var(--text-muted)}
+.part{color:var(--text-warning)}
+
+/* ACTION MATRIX */
+.matrix{width:100%;border-collapse:collapse;font-size:11.5px}
+.matrix th{padding:.45rem .5rem;text-align:center;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;border-bottom:0.5px solid var(--border-strong);color:var(--text-muted)}
+.matrix th:first-child{text-align:left;width:36%}
+.matrix td{padding:.4rem .5rem;border-bottom:0.5px solid var(--border);text-align:center;vertical-align:top}
+.matrix td:first-child{text-align:left;color:var(--text-primary);font-weight:500;font-size:12px}
+.m-yes{color:var(--text-success)}
+.m-no{color:var(--text-muted)}
+.m-red{color:var(--text-warning);font-size:10px}
+.matrix tbody tr:hover{background:var(--surface-0)}
+.redirect-tag{display:inline-block;font-family:var(--font-mono);font-size:9.5px;padding:1px 5px;background:var(--bg-warning);color:var(--text-warning);border-radius:3px;line-height:1.4}
+
+/* TREE */
+.tree{font-family:var(--font-mono);font-size:11.5px;line-height:2;background:var(--surface-0);border:0.5px solid var(--border);border-radius:10px;padding:1rem 1.25rem;overflow-x:auto}
+.r{display:block;white-space:nowrap}
+.r.hidden{display:none}
+.pub{color:#1D9E75}.auth{color:#BA7517}.ten{color:#534AB7}.adm{color:#A32D2D}.newf{color:#185FA5}.muted{color:var(--text-muted)}.comment{color:var(--text-muted);font-size:10px}
+.filter-row{display:flex;gap:5px;margin-bottom:.75rem;flex-wrap:wrap;align-items:center}
+.filt{padding:3px 10px;font-size:11px;font-weight:500;border-radius:100px;cursor:pointer;border:0.5px solid var(--border);background:transparent;color:var(--text-secondary)}
+.f-pub{border-color:#1D9E75;color:#1D9E75}.f-pub.on{background:#1D9E75;color:#fff}
+.f-auth{border-color:#BA7517;color:#BA7517}.f-auth.on{background:#BA7517;color:#fff}
+.f-ten{border-color:#534AB7;color:#534AB7}.f-ten.on{background:#534AB7;color:#fff}
+.f-adm{border-color:#A32D2D;color:#A32D2D}.f-adm.on{background:#A32D2D;color:#fff}
+.f-new{border-color:#185FA5;color:#185FA5}.f-new.on{background:#185FA5;color:#fff}
+
+/* FLOW STEPS */
+.flow{display:flex;align-items:stretch;overflow-x:auto;margin:.75rem 0}
+.fstep{flex:1;min-width:80px;background:var(--surface-1);border:0.5px solid var(--border);padding:.6rem .75rem;font-size:11px}
+.fstep:first-child{border-radius:8px 0 0 8px}
+.fstep:last-child{border-radius:0 8px 8px 0}
+.farr{display:flex;align-items:center;padding:0 3px;color:var(--text-muted);font-size:13px;flex-shrink:0}
+.ftitle{font-weight:500;color:var(--text-primary);font-size:11px;margin-bottom:2px}
+.fdesc{color:var(--text-secondary);font-size:10px;line-height:1.4}
+
+/* BADGE */
+.badge{display:inline-block;padding:1px 8px;border-radius:100px;font-size:10px;font-weight:500}
+.ba{background:var(--bg-accent);color:var(--text-accent)}
+.bs{background:var(--bg-success);color:var(--text-success)}
+.bd{background:var(--bg-danger);color:var(--text-danger)}
+.bp{background:var(--bg-pro);color:var(--text-pro)}
+.bw{background:var(--bg-warning);color:var(--text-warning)}
+.bg{background:var(--surface-1);border:0.5px solid var(--border);color:var(--text-secondary)}
+
+/* CONFIG */
+.cfg-step{display:grid;grid-template-columns:24px 1fr;gap:.6rem;padding:.6rem 0;border-bottom:0.5px solid var(--border);align-items:start}
+.cfg-step:last-child{border-bottom:none}
+.cfg-n{width:22px;height:22px;border-radius:50%;background:var(--bg-accent);color:var(--text-accent);font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cfg-title{font-size:13px;font-weight:500;color:var(--text-primary)}
+.cfg-sub{font-size:12px;color:var(--text-secondary);line-height:1.5;margin-top:2px}
+
+/* REMOVED BOX */
+.removed{background:var(--bg-danger);border:0.5px solid var(--border-danger);border-radius:8px;padding:.75rem 1rem;margin-bottom:.75rem;font-size:12px;color:var(--text-danger);line-height:1.6}
+.kept{background:var(--bg-success);border:0.5px solid var(--border-success);border-radius:8px;padding:.75rem 1rem;margin-bottom:.75rem;font-size:12px;color:var(--text-success);line-height:1.6}
+.info-box{background:var(--bg-accent);border:0.5px solid var(--border-accent);border-radius:8px;padding:.75rem 1rem;margin-bottom:.75rem;font-size:12px;color:var(--text-accent);line-height:1.6}
+.warn-box{background:var(--bg-warning);border:0.5px solid var(--border-warning);border-radius:8px;padding:.75rem 1rem;margin-bottom:.75rem;font-size:12px;color:var(--text-warning);line-height:1.6}
+
+/* B2B */
+.b2b-flow{display:grid;grid-template-columns:repeat(5,1fr);gap:0}
+.b2b-step{background:var(--surface-1);border:0.5px solid var(--border);padding:.6rem;font-size:11px;text-align:center}
+.b2b-step:first-child{border-radius:8px 0 0 8px}
+.b2b-step:last-child{border-radius:0 8px 8px 0}
+.b2b-title{font-weight:500;color:var(--text-primary);font-size:11px;margin-bottom:3px}
+.b2b-desc{color:var(--text-secondary);font-size:10px;line-height:1.4}
+
+/* DIFF TABLE */
+.diff{width:100%;border-collapse:collapse;font-size:12px}
+.diff th{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);padding:.4rem .6rem;border-bottom:0.5px solid var(--border-strong);text-align:left}
+.diff td{padding:.4rem .6rem;border-bottom:0.5px solid var(--border);vertical-align:top;line-height:1.5;color:var(--text-secondary);font-size:11px}
+.diff .old{background:var(--bg-danger);color:var(--text-danger);font-family:var(--font-mono);font-size:10.5px}
+.diff .new{background:var(--bg-success);color:var(--text-success);font-family:var(--font-mono);font-size:10.5px}
+</style>
+
+<div class="w">
+<div class="hero">
+  <h1>Fluvë Platform — sistema reestructurado</h1>
+  <p>Flujo de navegación aplicado desde Threadless · Sin editor de diseños · Con Configurador de Productos · Módulo B2B integrado</p>
+</div>
+
+<nav class="tabs" role="tablist">
+  <button class="tb on" data-tab="t-auth">Estado de sesión</button>
+  <button class="tb" data-tab="t-rutas">Rutas completas</button>
+  <button class="tb" data-tab="t-config">Configurador</button>
+  <button class="tb" data-tab="t-b2b">Módulo B2B</button>
+  <button class="tb" data-tab="t-delta">Cambios del plan</button>
+</nav>
+
+<!-- ══════════════ TAB ESTADO DE SESIÓN ══════════════ -->
+<div id="t-auth" class="tp on">
+
+<div class="state-grid">
+  <div class="state-card s-guest">
+    <div class="state-name">Invitado — sin sesión</div>
+    <div class="state-header">
+      Logo | Shop Themes Hombre Mujer Arte Comunidad<br>
+      <span class="h-hi">[Buscar] [Carrito] [Ingresar] [Unirse]</span>
+    </div>
+    <div class="state-list">
+      <div class="ok">✓ Ver todo el catálogo /shop/</div>
+      <div class="ok">✓ Ver perfiles artista /@username/</div>
+      <div class="ok">✓ Ver /designs/ y detalles</div>
+      <div class="ok">✓ Añadir al carrito</div>
+      <div class="ok">✓ Checkout (email mínimo)</div>
+      <div class="ok">✓ /pedido/?numero= sin login</div>
+      <div class="ok">✓ Ver challenges /crear/</div>
+      <div class="part">→ Votar: redirige /unirse/?guardar=</div>
+      <div class="part">→ Guardar: redirige /unirse/?guardar=</div>
+      <div class="part">→ Seguir artista: /unirse/?seguir=</div>
+      <div class="no">✗ /cuenta/*</div>
+      <div class="no">✗ /admin/*</div>
+    </div>
+  </div>
+
+  <div class="state-card s-cli">
+    <div class="state-name">Cliente — sesión activa</div>
+    <div class="state-header">
+      Logo | Shop Themes Hombre Mujer Arte Comunidad<br>
+      <span class="h-hi">[Buscar] [Carrito] [🔔] [Avatar ▾]</span><br>
+      <span class="h-no">[Ingresar] [Unirse]</span> ocultos<br>
+      Avatar dropdown: Mi cuenta · Pedidos · Guardados · Votos · Salir
+    </div>
+    <div class="state-list">
+      <div class="ok">✓ Todo lo del invitado</div>
+      <div class="ok">✓ Votar diseños (inmediato)</div>
+      <div class="ok">✓ Guardar diseños (inmediato)</div>
+      <div class="ok">✓ Seguir artistas</div>
+      <div class="ok">✓ /cuenta/ — dashboard</div>
+      <div class="ok">✓ /cuenta/pedidos/ — historial</div>
+      <div class="ok">✓ /cuenta/guardados/</div>
+      <div class="ok">✓ /cuenta/votos/</div>
+      <div class="ok">✓ /cuenta/cotizaciones/ (B2B)</div>
+      <div class="part">→ /cuenta/tienda/ → redirige /artista/tiendas/</div>
+      <div class="no">✗ Subir diseños</div>
+      <div class="no">✗ /admin/*</div>
+    </div>
+  </div>
+
+  <div class="state-card s-art">
+    <div class="state-name">Artista — aprobado</div>
+    <div class="state-header">
+      Logo | Shop Themes Hombre Mujer Arte Comunidad<br>
+      <span class="h-hi">[Buscar] [Carrito] [🔔] [Avatar ▾]</span><br>
+      Avatar dropdown: Mi cuenta · Pedidos · <span class="h-hi">Mi tienda ✦</span> · Mis ganancias · Salir<br>
+      "Vende tu arte" → <span class="h-hi">"Gestionar mi tienda"</span>
+    </div>
+    <div class="state-list">
+      <div class="ok">✓ Todo lo del cliente</div>
+      <div class="ok">✓ /cuenta/tienda/ — dashboard artista</div>
+      <div class="ok">✓ /cuenta/tienda/disenos/ — gestionar</div>
+      <div class="ok">✓ /cuenta/tienda/stats/ — analytics</div>
+      <div class="ok">✓ /cuenta/ganancias/ — regalías</div>
+      <div class="ok">✓ Subir diseños (post-aprobación)</div>
+      <div class="ok">✓ /@username/ branded storefront</div>
+      <div class="part">→ No puede votar sus propios diseños</div>
+      <div class="no">✗ /admin/*</div>
+    </div>
+  </div>
+
+  <div class="state-card s-adm">
+    <div class="state-name">Staff / Admin</div>
+    <div class="state-header">
+      Logo | Shop Themes Hombre Mujer Arte Comunidad<br>
+      <span class="h-hi">[Buscar] [Carrito] [🔔] [Avatar ▾]</span><br>
+      Avatar dropdown: Mi cuenta · <span class="h-hi">Admin ✦</span> · Salir<br>
+      Badge de rol visible en header
+    </div>
+    <div class="state-list">
+      <div class="ok">✓ Todo lo del artista</div>
+      <div class="ok">✓ /admin/ — panel completo</div>
+      <div class="ok">✓ /admin/pedidos/ — todos los pedidos</div>
+      <div class="ok">✓ /admin/disenos/ — moderar</div>
+      <div class="ok">✓ /admin/artistas/ — aprobar/rechazar</div>
+      <div class="ok">✓ /admin/produccion/ — fulfillment</div>
+      <div class="ok">✓ /admin/pagos/ — split payments</div>
+      <div class="ok">✓ /admin/cotizaciones/ — B2B</div>
+      <div class="ok">✓ /admin/precios/ — motor de costeo</div>
+      <div class="ok">✓ /admin/configuracion/ — platform settings</div>
+    </div>
+  </div>
+</div>
+
+<div class="lbl">Matriz de acciones según estado de sesión</div>
+<table class="matrix">
+  <thead>
+    <tr>
+      <th style="text-align:left">Acción</th>
+      <th>Invitado</th>
+      <th>Cliente</th>
+      <th>Artista</th>
+      <th>Admin</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Ver catálogo /shop/</td><td class="m-yes">✓</td><td class="m-yes">✓</td><td class="m-yes">✓</td><td class="m-yes">✓</td></tr>
+    <tr><td>Ver perfil artista /@user/</td><td class="m-yes">✓</td><td class="m-yes">✓</td><td class="m-yes">✓</td><td class="m-yes">✓</td></tr>
+    <tr><td>Ver diseños /designs/</td><td class="m-yes">✓</td><td class="m-yes">✓</td><td class="m-yes">✓</td><td class="m-yes">✓</td></tr>
+    <tr><td>Usar Configurador de productos</td><td class="m-yes">✓</td><td class="m-yes">✓</td><td class="m-yes">✓</td><td class="m-yes">✓</td></tr>
+    <tr><td>Añadir al carrito</td><td class="m-yes">✓</td><td class="m-yes">✓</td><td class="m-yes">✓</td><td class="m-yes">✓</td></tr>
+    <tr><td>Checkout / realizar pedido</td><td><span class="m-red">Email mín.</span></td><td class="m-yes">✓</td><td class="m-yes">✓</td><td class="m-yes">✓</td></tr>
+    <tr><td>Trackear pedido /pedido/</td><td><span class="m-red">Nro. de orden</span></td><td class="m-yes">✓</td><td class="m-yes">✓</td><td class="m-yes">✓</td></tr>
+    <tr><td>Votar diseño</td><td><span class="redirect-tag">/unirse/?guardar=</span></td><td class="m-yes">✓</td><td class="m-yes">✓*</td><td class="m-yes">✓</td></tr>
+    <tr><td>Guardar diseño</td><td><span class="redirect-tag">/unirse/?guardar=</span></td><td class="m-yes">✓</td><td class="m-yes">✓</td><td class="m-yes">✓</td></tr>
+    <tr><td>Seguir artista</td><td><span class="redirect-tag">/unirse/?seguir=</span></td><td class="m-yes">✓</td><td class="m-yes">✓</td><td class="m-yes">✓</td></tr>
+    <tr><td>Pedir cotización B2B /cotizar/</td><td class="m-yes">✓</td><td class="m-yes">✓</td><td class="m-yes">✓</td><td class="m-yes">✓</td></tr>
+    <tr><td>/cuenta/ — mi cuenta</td><td><span class="redirect-tag">/ingresar/?return=</span></td><td class="m-yes">✓</td><td class="m-yes">✓</td><td class="m-yes">✓</td></tr>
+    <tr><td>/cuenta/tienda/ — mi tienda</td><td><span class="redirect-tag">/ingresar/?return=</span></td><td><span class="redirect-tag">/artista/tiendas/</span></td><td class="m-yes">✓</td><td class="m-yes">✓</td></tr>
+    <tr><td>Subir diseños (crear/participar)</td><td><span class="redirect-tag">/unirse/</span></td><td><span class="redirect-tag">/artista/tiendas/</span></td><td class="m-yes">✓</td><td class="m-yes">✓</td></tr>
+    <tr><td>/admin/ — panel admin</td><td class="m-no">✗</td><td class="m-no">✗</td><td class="m-no">✗</td><td class="m-yes">✓</td></tr>
+    <tr><td>CTA "Vende tu arte"</td><td><span class="m-red">/artista/tiendas/</span></td><td><span class="m-red">/artista/tiendas/</span></td><td><span class="m-yes">→ /cuenta/tienda/</span></td><td><span class="m-yes">→ /admin/</span></td></tr>
+  </tbody>
+</table>
+<p style="font-size:10px;color:var(--text-muted);margin-top:.4rem">* Artista no puede votar sus propios diseños. El sistema valida y bloquea silenciosamente.</p>
+</div>
+
+<!-- ══════════════ TAB RUTAS COMPLETAS ══════════════ -->
+<div id="t-rutas" class="tp">
+
+<div class="filter-row">
+  <span style="font-size:11px;color:var(--text-muted)">Filtrar:</span>
+  <button class="filt f-pub on" data-z="pub">Pública</button>
+  <button class="filt f-auth on" data-z="auth">Auth</button>
+  <button class="filt f-ten on" data-z="ten">Artista/tenant</button>
+  <button class="filt f-adm on" data-z="adm">Admin</button>
+  <button class="filt f-new on" data-z="newf">B2B / nuevo</button>
+</div>
+
+<div class="tree">
+<span class="r pub">/                                          <span class="comment">Home editorial — tendencias, artistas nuevos, challenges activos</span></span>
+<span class="r pub">│</span>
+<span class="r pub">├── [Landings editoriales → redirigen a /shop/]</span>
+<span class="r pub">│   ├── remeras/  hoodies/  tazas/  accesorios/</span>
+<span class="r pub">│   ├── decoracion/  arte/  hombre/  mujer/  tendencias/</span>
+<span class="r pub">│</span>
+<span class="r pub">├── shop/                                      <span class="comment">Hub comercial principal — catálogo de diseños + productos</span></span>
+<span class="r pub">│   ├── ?mostrar=productos|disenos &amp;orden=tendencia|popular|nuevo &amp;pagina=N</span>
+<span class="r pub">│   ├── {departamento}/                        <span class="comment">/shop/remeras/ /shop/tazas/</span></span>
+<span class="r pub">│   │   └── {categoria}/</span>
+<span class="r pub">│   │       └── {estilo}/</span>
+<span class="r pub">│   ├── !{tema}/                               <span class="comment">/shop/!animales/ /shop/!abstracto/</span></span>
+<span class="r pub">│   ├── *{desafio-slug}/                       <span class="comment">/shop/*verano-2026/</span></span>
+<span class="r pub">│   ├── +{etiqueta}/                           <span class="comment">/shop/+uruguay/</span></span>
+<span class="r ten">│   └── @{username}/                           <span class="comment">Catálogo del artista en el shop central</span></span>
+<span class="r ten">│       └── diseno/{slug}/                     <span class="comment">Ficha del diseño en shop</span></span>
+<span class="r ten">│           └── {dept}/{producto}              <span class="comment">CONFIGURADOR ← aquí vive</span></span>
+<span class="r pub">│</span>
+<span class="r pub">├── designs/                                   <span class="comment">Zona de votación comunitaria</span></span>
+<span class="r pub">│   ├── ?orden=popular|subiendo|nuevo &amp;estado=abierto|cerrado &amp;filtro=todos|siguiendo</span>
+<span class="r pub">│   ├── archivo/</span>
+<span class="r pub">│   └── {design-slug}                          <span class="comment">Diseño individual → votar · compartir · comprar</span></span>
+<span class="r pub">│</span>
+<span class="r pub">├── crear/                                     <span class="comment">Hub de creación — acceso condicional por estado</span></span>
+<span class="r pub">│   ├── participar/                            <span class="comment">Challenges activos (lista pública)</span></span>
+<span class="r pub">│   └── anteriores/</span>
+<span class="r pub">│</span>
+<span class="r pub">├── buscar/                                    <span class="comment">?q= &amp;departamento= &amp;color= &amp;orden= &amp;mostrar= &amp;pagina=</span></span>
+<span class="r pub">│</span>
+<span class="r newf">├── cotizar/                                   <span class="comment">B2B — formulario multi-paso de cotización</span></span>
+<span class="r pub">│</span>
+<span class="r pub">├── como-funciona/</span>
+<span class="r pub">│</span>
+<span class="r pub">├── unirse/   ?guardar={id}  ?seguir={username}</span>
+<span class="r pub">├── ingresar/ ?return={path}</span>
+<span class="r pub">├── recuperar/</span>
+<span class="r pub">│</span>
+<span class="r pub">├── carrito/</span>
+<span class="r pub">├── pago/                                      <span class="comment">Email mínimo requerido (checkout invitado OK)</span></span>
+<span class="r pub">└── pedido/   ?numero={order-number}           <span class="comment">Tracking SIN sesión requerida</span></span>
+<span class="r pub">│</span>
+<span class="r ten">├── @{username}/                               <span class="comment">Perfil artista — branded storefront</span></span>
+<span class="r ten">│   ├── [portada branded — logo, banner, colores del artista]</span>
+<span class="r ten">│   ├── tienda/                                <span class="comment">Vista branded de sus productos (usa /shop/@user/)</span></span>
+<span class="r ten">│   ├── disenos/                               <span class="comment">Sus diseños: aprobados + en votación</span></span>
+<span class="r ten">│   ├── sobre/                                 <span class="comment">Bio, redes sociales</span></span>
+<span class="r ten">│   ├── actividad/</span>
+<span class="r ten">│   ├── siguiendo/</span>
+<span class="r ten">│   ├── seguidores/</span>
+<span class="r ten">│   └── guardados/</span>
+<span class="r pub">│</span>
+<span class="r pub">├── artista/tiendas/                           <span class="comment">Captación → "Vende tu arte"</span></span>
+<span class="r newf">├── empresa/tiendas/                           <span class="comment">Captación B2B → swag corporativo</span></span>
+<span class="r newf">├── organizacion/tiendas/</span>
+<span class="r pub">├── influencer/tiendas/</span>
+<span class="r pub">├── todo/tiendas/</span>
+<span class="r pub">├── recursos-artista/</span>
+<span class="r pub">│</span>
+<span class="r auth">├── cuenta/                                    <span class="comment">Área privada — requiere sesión</span></span>
+<span class="r auth">│   ├── pedidos/   └── {id}/</span>
+<span class="r auth">│   ├── guardados/</span>
+<span class="r auth">│   ├── votos/</span>
+<span class="r newf">│   ├── cotizaciones/                          <span class="comment">B2B — mis cotizaciones pendientes y aprobadas</span></span>
+<span class="r newf">│   │   └── {id}/</span>
+<span class="r auth">│   ├── tienda/                                <span class="comment">Solo artistas aprobados</span></span>
+<span class="r auth">│   │   ├── disenos/</span>
+<span class="r auth">│   │   ├── personalizar/                      <span class="comment">Config logo/banner/colores de la tienda</span></span>
+<span class="r auth">│   │   └── stats/</span>
+<span class="r auth">│   ├── ganancias/</span>
+<span class="r auth">│   └── configuracion/</span>
+<span class="r pub">│</span>
+<span class="r adm">├── admin/                                     <span class="comment">Panel admin — staff|admin role</span></span>
+<span class="r adm">│   ├── pedidos/   └── {id}/</span>
+<span class="r adm">│   ├── disenos/   └── {id}/</span>
+<span class="r adm">│   ├── artistas/</span>
+<span class="r adm">│   ├── desafios/</span>
+<span class="r adm">│   ├── produccion/</span>
+<span class="r adm">│   ├── pagos/</span>
+<span class="r newf">│   ├── cotizaciones/                          <span class="comment">B2B — gestión y aprobación de cotizaciones</span></span>
+<span class="r adm">│   ├── precios/                               <span class="comment">Motor de costeo (heredado Fluvë Studio)</span></span>
+<span class="r adm">│   └── configuracion/</span>
+<span class="r pub">│</span>
+<span class="r pub">├── info/terminos  info/privacidad  info/nosotros  info/valores  info/garantia</span>
+<span class="r pub">│</span>
+<span class="r pub">├── /{desafio-slug}/                           <span class="comment">⚠ CERCA DEL FINAL — dinámica con riesgo colisión</span></span>
+<span class="r pub">│   └── /disenos</span>
+<span class="r pub">│</span>
+<span class="r pub">└── [404]</span>
+</div>
+
+<div style="display:flex;gap:.75rem;margin-top:.5rem;flex-wrap:wrap;font-size:11px">
+  <span style="color:#1D9E75">● Pública</span>
+  <span style="color:#BA7517">● Auth requerida</span>
+  <span style="color:#534AB7">● Artista/multi-tenant</span>
+  <span style="color:#A32D2D">● Admin</span>
+  <span style="color:#185FA5">● B2B / nuevo en esta versión</span>
+</div>
+</div>
+
+<!-- ══════════════ TAB CONFIGURADOR ══════════════ -->
+<div id="t-config" class="tp">
+
+<div class="removed">
+  <strong>ELIMINADO — Editor de diseños</strong><br>
+  Herramientas de manipulación del archivo gráfico: upload de archivo propio, canvas de posicionamiento, redimensionado, texto libre, capas. El cliente no puede modificar ni crear el archivo de diseño.
+</div>
+
+<div class="kept">
+  <strong>CONSERVADO y redefinido — Configurador de Productos</strong><br>
+  El cliente configura cómo se aplica un diseño existente (pre-aprobado por el artista o la plataforma) sobre un producto. No hay modificación del archivo gráfico.
+</div>
+
+<div class="lbl">Ubicación del Configurador en el árbol de rutas</div>
+<div class="info-box">
+  El Configurador NO es una ruta independiente. Vive dentro de la ficha de producto del shop, exactamente como lo hace Threadless:<br><br>
+  <code>/shop/@{username}/diseno/{slug}/{departamento}/{producto}</code><br><br>
+  Ej: <code>/shop/@manu/diseno/cosmos/remeras/oversize</code>
+</div>
+
+<div class="lbl">Flujo del Configurador de Productos</div>
+
+<div class="card" style="margin-bottom:.75rem">
+  <div class="cfg-step">
+    <div class="cfg-n">1</div>
+    <div>
+      <div class="cfg-title">Seleccionar producto</div>
+      <div class="cfg-sub">El cliente llega desde la galería o el perfil del artista. El diseño ya está pre-seleccionado. Puede cambiar el tipo de producto (remera → hoodie → taza) mediante tabs. La URL cambia: <code>../remeras/oversize</code> → <code>../hoodies/pullover</code>. Solo aparecen los productos para los que ese diseño tiene mockup generado.</div>
+    </div>
+  </div>
+  <div class="cfg-step">
+    <div class="cfg-n">2</div>
+    <div>
+      <div class="cfg-title">Ver mockup del diseño sobre el producto</div>
+      <div class="cfg-sub">El Mockup Engine ya generó la imagen en alta resolución (cuando el artista subió el diseño). No hay renderizado en tiempo real en el cliente. El mockup muestra el diseño correctamente posicionado y escalado por la zona de impresión configurada en <code>mockup_configs</code>.</div>
+    </div>
+  </div>
+  <div class="cfg-step">
+    <div class="cfg-n">3</div>
+    <div>
+      <div class="cfg-title">Elegir color del producto</div>
+      <div class="cfg-sub">Swatches de colores disponibles para ese producto blank. Al cambiar color → cambia el mockup (imagen pre-generada por color: <code>design_files.type = mockup_remera_negro</code>, <code>mockup_remera_blanco</code>, etc.). Sin renderizado dinámico.</div>
+    </div>
+  </div>
+  <div class="cfg-step">
+    <div class="cfg-n">4</div>
+    <div>
+      <div class="cfg-title">Elegir talla y variante</div>
+      <div class="cfg-sub">Selector de talla (XS, S, M, L, XL, XXL). Para otros productos: capacidad (taza 300ml / 500ml), tamaño (cuadro 30x40 / 50x70), etc. Variante específica si aplica (classic fit / relaxed fit).</div>
+    </div>
+  </div>
+  <div class="cfg-step">
+    <div class="cfg-n">5</div>
+    <div>
+      <div class="cfg-title">Elegir técnica de impresión (si hay múltiples disponibles)</div>
+      <div class="cfg-sub">Solo si el diseño/producto lo permite. Ejemplo: DTF (full-color) vs. Bordado (diseños simples). El motor de costeo (pricing.js → pricing.ts) recalcula el precio en tiempo real según la técnica elegida. Sin técnicas: se muestra la técnica predeterminada sin selector.</div>
+    </div>
+  </div>
+  <div class="cfg-step">
+    <div class="cfg-n">6</div>
+    <div>
+      <div class="cfg-title">Definir cantidad</div>
+      <div class="cfg-sub">Input numérico o +/-. El motor de costeo aplica los tramos de precio por volumen (1 unidad / 2-5 / 6-10 / 11-50 / 51+). El precio unitario y el total se actualizan en tiempo real. Para pedidos B2B de alto volumen → link a /cotizar/.</div>
+    </div>
+  </div>
+  <div class="cfg-step" style="border-bottom:none">
+    <div class="cfg-n">7</div>
+    <div>
+      <div class="cfg-title">Añadir al carrito → Checkout → Pedido</div>
+      <div class="cfg-sub">El carrito es público (no requiere sesión). Al checkout: si no hay sesión, solicita email mínimo para continuar como invitado O invita a crear cuenta. La orden generada incluye: producto + diseño + color + talla + técnica + cantidad → se registra en PEDIDOS con todos los datos para fulfillment.</div>
+    </div>
+  </div>
+</div>
+
+<div class="warn-box">
+  <strong>Lo que el cliente NO puede hacer en el Configurador:</strong><br>
+  · Subir un archivo de diseño propio · Modificar posición o escala del diseño · Agregar texto sobre el diseño · Cambiar los colores del artwork · Recortar o ajustar el gráfico · Combinar múltiples diseños
+</div>
+</div>
+
+<!-- ══════════════ TAB B2B ══════════════ -->
+<div id="t-b2b" class="tp">
+
+<div class="info-box">
+  El módulo B2B de Fluvë cierra el circuito que Threadless no tiene: pedidos de volumen con cotización formal, factura A, gestión de cuenta empresarial y fulfillment dedicado. La entidad <code>quotes</code> ya existe en el prototipo (Fluvë Studio fase8c). Solo se amplía y se expone en la UI.
+</div>
+
+<div class="lbl">Diferencia B2C vs B2B en Fluvë</div>
+<table class="diff">
+  <thead><tr><th>Dimensión</th><th>B2C (tienda normal)</th><th>B2B (cotización)</th></tr></thead>
+  <tbody>
+    <tr><td>Unidades</td><td class="new">1 – 9 unidades</td><td class="old">10+ unidades (mínimo configurable)</td></tr>
+    <tr><td>Precio</td><td class="new">PVP motor de costeo (tramos)</td><td class="old">Precio especial negociado vía cotización</td></tr>
+    <tr><td>Pago</td><td class="new">MercadoPago / Stripe (inmediato)</td><td class="old">Factura A · transferencia · 30/60 días</td></tr>
+    <tr><td>Fulfillment</td><td class="new">Proveedor POD estándar</td><td class="old">Taller especializado (puede ser user.com.uy directo)</td></tr>
+    <tr><td>Regalía artista</td><td class="new">10% o 20% sobre margen</td><td class="old">Regalía diferida o acuerdo especial</td></tr>
+    <tr><td>Diseños</td><td class="new">Catálogo de artistas / plataforma</td><td class="old">Catálogo + posibilidad diseño exclusivo por encargo</td></tr>
+    <tr><td>Datos del comprador</td><td class="new">Nombre, email, dirección</td><td class="old">Razón social, RUT, dirección fiscal, datos de contacto</td></tr>
+    <tr><td>Documento entregado</td><td class="new">Comprobante de compra</td><td class="old">Cotización formal → Factura A (IVA 22%)</td></tr>
+  </tbody>
+</table>
+
+<div class="lbl">Flujo B2B</div>
+<div class="b2b-flow">
+  <div class="b2b-step"><div class="b2b-title">Descubrimiento</div><div class="b2b-desc">/empresa/tiendas/ o link "¿Más de 10 unidades?" en el configurador</div></div>
+  <div class="b2b-step"><div class="b2b-title">Formulario /cotizar/</div><div class="b2b-desc">Empresa, RUT, cantidad, diseño(s), producto(s), técnica, fecha tentativa</div></div>
+  <div class="b2b-step"><div class="b2b-title">Revisión admin</div><div class="b2b-desc">/admin/cotizaciones/ — staff revisa, ajusta precio, genera cotización formal</div></div>
+  <div class="b2b-step"><div class="b2b-title">Aprobación cliente</div><div class="b2b-desc">Email con PDF de cotización → link de aprobación → /cuenta/cotizaciones/{id}</div></div>
+  <div class="b2b-step"><div class="b2b-title">Producción / Pago</div><div class="b2b-desc">Orden a taller → entrega → Factura A → pago</div></div>
+</div>
+
+<div class="lbl">Rutas del módulo B2B</div>
+<div class="g2">
+  <div class="card">
+    <div style="font-size:12px;font-weight:500;color:var(--text-accent);margin-bottom:.5rem">Rutas públicas</div>
+    <div style="font-size:12px;color:var(--text-secondary);line-height:1.9">
+      <code>/empresa/tiendas/</code> — landing B2B<br>
+      <code>/cotizar/</code> — formulario (público, sin sesión)<br>
+      <code>/como-funciona/#b2b</code> — sección explicativa
+    </div>
+  </div>
+  <div class="card">
+    <div style="font-size:12px;font-weight:500;color:var(--text-accent);margin-bottom:.5rem">Rutas privadas</div>
+    <div style="font-size:12px;color:var(--text-secondary);line-height:1.9">
+      <code>/cuenta/cotizaciones/</code> — mis cotizaciones<br>
+      <code>/cuenta/cotizaciones/{id}/</code> — detalle + aprobar<br>
+      <code>/admin/cotizaciones/</code> — gestión staff<br>
+      <code>/admin/cotizaciones/{id}/</code> — editar y procesar
+    </div>
+  </div>
+</div>
+
+<div class="lbl">Integración con el motor de costeo (heredado)</div>
+<div class="card">
+  <div style="font-size:13px;color:var(--text-secondary);line-height:1.6">
+    El formulario /cotizar/ usa el mismo <code>pricing.ts</code> (migración de pricing.js) para calcular el costo de producción por unidad según cantidad y técnica. El staff ve en <code>/admin/cotizaciones/{id}/</code> el breakdown automático:<br><br>
+    <code>pvp estimado · costo producción · margen bruto · regalía artista (si aplica) · margen neto plataforma</code><br><br>
+    El staff puede ajustar el precio de la cotización sobre este baseline, con el motor mostrando el impacto en el margen en tiempo real.
+  </div>
+</div>
+</div>
+
+<!-- ══════════════ TAB CAMBIOS ══════════════ -->
+<div id="t-delta" class="tp">
+
+<div class="lbl">Cambios respecto al plan anterior</div>
+<table class="diff">
+  <thead><tr><th>Qué</th><th>Antes</th><th>Ahora</th><th>Razón</th></tr></thead>
+  <tbody>
+    <tr><td style="font-size:12px">Editor/Personalizador</td><td class="old">/personalizar/{slug}<br>upload propio, canvas, editor</td><td class="new">Eliminado completamente</td><td style="font-size:11px;color:var(--text-secondary)">El cliente no modifica el archivo gráfico. No aplica al modelo.</td></tr>
+    <tr><td style="font-size:12px">Configurador de productos</td><td class="old">Ruta separada /personalizar/</td><td class="new">Embebido en la ficha:<br>/shop/@u/diseno/{slug}/{dept}/{prod}</td><td style="font-size:11px;color:var(--text-secondary)">Patrón Threadless. La ficha IS el configurador.</td></tr>
+    <tr><td style="font-size:12px">B2B</td><td class="old">Solo /cotizar/ mencionado</td><td class="new">/cotizar/ + /empresa/tiendas/ + /cuenta/cotizaciones/ + /admin/cotizaciones/</td><td style="font-size:11px;color:var(--text-secondary)">Módulo completo con flujo end-to-end.</td></tr>
+    <tr><td style="font-size:12px">Invitado → carrito</td><td class="old">Requería login para añadir al carrito</td><td class="new">Carrito público. Checkout con email mínimo.</td><td style="font-size:11px;color:var(--text-secondary)">Threadless permite agregar al carrito sin login. Reduce fricción.</td></tr>
+    <tr><td style="font-size:12px">Votar sin sesión</td><td class="old">Botón deshabilitado</td><td class="new">Activo → redirige /unirse/?guardar={id}</td><td style="font-size:11px;color:var(--text-secondary)">Threadless preserva la intención antes de pedir login.</td></tr>
+    <tr><td style="font-size:12px">CTA "Vende tu arte"</td><td class="old">Igual para todos los estados</td><td class="new">Condicional por estado: /artista/tiendas/ → /cuenta/tienda/ si ya es artista</td><td style="font-size:11px;color:var(--text-secondary)">Patrón Threadless. Sin fricción para artistas existentes.</td></tr>
+    <tr><td style="font-size:12px">/pedido/ tracking</td><td class="old">Requería login</td><td class="new">Público con número de orden</td><td style="font-size:11px;color:var(--text-secondary)">Threadless /orderstatus/ funciona sin sesión.</td></tr>
+    <tr><td style="font-size:12px">Header nav</td><td class="old">Estático para todos los estados</td><td class="new">4 estados distintos (invitado / cliente / artista / admin)</td><td style="font-size:11px;color:var(--text-secondary)">Flujo aplicado desde Threadless.</td></tr>
+  </tbody>
+</table>
+
+<div class="lbl">Lo que NO cambia</div>
+<div class="g3">
+  <div class="card"><div style="font-size:12px;font-weight:500;color:var(--text-success);margin-bottom:3px">Motor de costeo pricing.js</div><div style="font-size:11px;color:var(--text-secondary)">29/29 casos. Se migra a pricing.ts sin tocar una línea de lógica.</div></div>
+  <div class="card"><div style="font-size:12px;font-weight:500;color:var(--text-success);margin-bottom:3px">PRODUCTO / DISEÑO / PEDIDO</div><div style="font-size:11px;color:var(--text-secondary)">El modelo de dominio central no cambia.</div></div>
+  <div class="card"><div style="font-size:12px;font-weight:500;color:var(--text-success);margin-bottom:3px">Mockup Engine</div><div style="font-size:11px;color:var(--text-secondary)">No cambia el engine. Cambia cuándo se usa: al subir el diseño, no en el cliente.</div></div>
+  <div class="card"><div style="font-size:12px;font-weight:500;color:var(--text-success);margin-bottom:3px">Split payments</div><div style="font-size:11px;color:var(--text-secondary)">Cálculo y distribución: sin cambios.</div></div>
+  <div class="card"><div style="font-size:12px;font-weight:500;color:var(--text-success);margin-bottom:3px">Multi-tenant / RLS</div><div style="font-size:11px;color:var(--text-success">Sin cambios.</div></div>
+  <div class="card"><div style="font-size:12px;font-weight:500;color:var(--text-success);margin-bottom:3px">Legales UY</div><div style="font-size:11px;color:var(--text-secondary)">Términos L.17.250 + Privacidad L.18.331 heredados.</div></div>
+</div>
+</div>
+
+</div>
+
+<script>
+document.querySelectorAll('.tb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.tb').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('.tp').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    document.getElementById(b.dataset.tab).classList.add('on');
+  });
+});
+const az=new Set(['pub','auth','ten','adm','newf']);
+document.querySelectorAll('.filt').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const z=b.dataset.z;
+    az.has(z)?az.delete(z):az.add(z);
+    b.classList.toggle('on',az.has(z));
+    document.querySelectorAll('.tree .r').forEach(r=>{
+      const zl=['pub','auth','ten','adm','newf'];
+      const rz=zl.find(x=>r.classList.contains(x));
+      if(!rz){r.classList.remove('hidden');return}
+      r.classList.toggle('hidden',!az.has(rz));
+    });
+  });
+});
+</script>
